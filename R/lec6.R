@@ -5,7 +5,7 @@
 ########################################################################################################################################################
 ########################################################################################################################################################
 #### Example 4.3.5
-teachers <- read.table("http://astro.temple.edu/~zhaozhg/Stat8003/data/English_greek.csv",header=TRUE, sep=",")
+teachers <- read.table("data/English_greek.csv",header=TRUE, sep=",")
 diff <- teachers$English - teachers$Greek
 T.stat <- ( mean(diff) )/sqrt( var(diff)/length(diff) )
 
@@ -37,14 +37,14 @@ marketing <- chisq.test( observ, p=p.null)
 ########################################################################################################################################################
 #### Example 4.4.2
 ## Exit poll
-poll1 = read.table( "http://astro.temple.edu/~zhaozhg/Stat8003/data/ExitPoll1.txt", header=TRUE )
+poll1 = read.table( "data/ExitPoll1.txt", header=TRUE )
 x1 <- poll1[1:3, 1:3 ]
 x1.exp <- array( c( x1[1,3]*x1[3,1]/x1[3,3], x1[2,3]*x1[3,1]/x1[3,3], x1[3,1], x1[1,3]*x1[3,2]/x1[3,3], x1[3,2]*x1[2,3]/x1[3,3], x1[3,2], x1[1,3],x1[2,3],x1[3,3]), c(3, 3) )
 test.stat <- sum( (x1[1:2,1:2]-x1.exp[1:2,1:2])^2/x1.exp[1:2,1:2] )
 poll.test <- chisq.test( x1[1:2,1:2], correct=FALSE )
 
 ##
-poll2 <- read.table( "http://astro.temple.edu/~zhaozhg/Stat8003/data/ExitPoll2.txt", header=TRUE )
+poll2 <- read.table( "data/ExitPoll2.txt", header=TRUE )
 x2 <- poll2[1:6, 1:3]
 poll2.test <- chisq.test( x2[1:5,1:2] )
 
@@ -98,45 +98,36 @@ cat("pvalue is", p.val, "\n")
 ########################################################################################################################################################
 ########################################################################################################################################################
 #### Example 4.6.1
-## GPD 
-gdp.all <- read.csv("http://astro.temple.edu/~zhaozhg/Stat8003/data/GDP_Per_Capita.csv")
-gdp <- gdp.all[,62]
-gdp[ is.na(gdp) ] <- NULL
-n <- length(gdp)
+## income 
+income.all <- read.csv("data/kaggle_income.csv")
+income <- income.all$Median[ (income.all$Median >0 ) &( income.all$Median < 300000)  ]
+
+n <- length(income)
+
 
 par( mfrow=c(2,2) )
 ## Sort the data
-gdp.sort <- sort(gdp, decreasing=FALSE )
+income.sort <- sort(income, decreasing=FALSE )
 ## Normal
-mu <- mean(gdp.sort)
-sigma <- sqrt( var(gdp.sort) )
+mu <- mean(income.sort)
+sigma <- sqrt( var(income.sort) )
 q.norm <- qnorm( (c(1:n)-0.5)/n, mu, sigma, lower.tail=TRUE )
-plot( q.norm, gdp.sort, main="Normal" )
+plot( q.norm, income.sort, main="Normal" )
 points(c( q.norm[1], q.norm[n]), c(q.norm[1], q.norm[n]), 'l',col='red', lwd=2)
 
 ## Log Normal
 ## Sort the data
-l.gdp.sort <- sort(log(gdp), decreasing=FALSE )
+l.income.sort <- sort(log(income), decreasing=FALSE )
 ## Normal
-l.mu <- mean(l.gdp.sort)
-l.sigma <- sqrt( var(l.gdp.sort) )
+l.mu <- mean(l.income.sort)
+l.sigma <- sqrt( var(l.income.sort) )
 l.q.norm <- qnorm( (c(1:n)-0.5)/n, l.mu, l.sigma, lower.tail=TRUE )
-plot( l.q.norm, l.gdp.sort, main="Log Normal")
+plot( l.q.norm, l.income.sort, main="Log Normal")
 points(c( l.q.norm[1], l.q.norm[n]), c(l.q.norm[1], l.q.norm[n]), 'l',col='red', lwd=2)
 
 
-## Gamma model
-alpha.mle <- 0.8131734
-beta.mle <- 16575.21
-
-gdp.sort <- sort(gdp, decreasing=FALSE )
-## Normal
-q.gamma <- qgamma( (c(1:n)-0.5)/n, alpha.mle, 1/beta.mle, lower.tail=TRUE )
-plot( q.gamma, gdp.sort, main="Gamma" )
-points(c( q.gamma[1], q.gamma[n]), c(q.gamma[1], q.gamma[n]), 'l',col='red', lwd=2)
-
-qqnorm(gdp)
-qqline(gdp,col='red', lwd=2)
+qqnorm(income)
+qqline(income,col='red', lwd=2)
 
 ########################################################################################################################################################
 ########################################################################################################################################################
@@ -173,21 +164,21 @@ qqline(t.100,col='red', lwd=2)
 #### Example 4.7.1
 
 library(kolmim)
-gdp.all <- read.csv("http://astro.temple.edu/~zhaozhg/Stat8003/data/GDP_Per_Capita.csv")
-gdp <- gdp.all[,62]
-gdp[ is.na(gdp) ] <- NULL
-n <- length(gdp)
+income.all <- read.csv("data/kaggle_income.csv")
+income <- income.all$Median[ (income.all$Median >0 ) &( income.all$Median < 300000)  ]
 
-gdp.sort <- sort( gdp, decreasing=FALSE) 
+n <- length(income)
+
+income.sort <- sort( income, decreasing=FALSE) 
 
 ##Normal case
-mu <- mean(gdp.sort)
-sigma <- sqrt( var(gdp.sort) )
-cdf.normal <- pnorm( gdp.sort, mu, sigma )
+mu <- mean(income.sort)
+sigma <- sqrt( var(income.sort) )
+cdf.normal <- pnorm( income.sort, mu, sigma )
 ks.normal <- max( abs( cdf.normal - c(0:(n-1))/n), abs( cdf.normal-c(1:n)/n) )
-1-pkolm( ks.normal,  length(gdp) )
+1-pkolm( ks.normal,  length(income) )
 
-ks.normal.Rfunc <- ks.test( gdp, 'pnorm', mu, sigma, exact=TRUE )
+ks.normal.Rfunc <- ks.test( income, 'pnorm', mu, sigma, exact=TRUE )
 
 
 
@@ -204,8 +195,8 @@ for(i in 1:10)
   print(praise())
 
 
-X <- read.table("http://astro.temple.edu/~zhaozhg/Stat8003/data/prostate_X.csv",sep=",")
-Y <- read.table("http://astro.temple.edu/~zhaozhg/Stat8003/data/prostate_Y.csv",sep=",")
+X <- read.table("data/prostate_X.csv",sep=",")
+Y <- read.table("data/prostate_Y.csv",sep=",")
 
 par(mfrow=c(1,2))
 ## Consider gene 3
@@ -234,5 +225,5 @@ ks.test( X6032.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
 
 ## Shapiro-Wilk test
 
-shapiro.test(gdp)
-shapiro.test(log(gdp))
+shapiro.test(income)
+shapiro.test(log(income))
