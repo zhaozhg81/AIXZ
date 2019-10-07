@@ -1,0 +1,4 @@
+	Gore	Bush	Total
+Men	109	138	247
+Women	152	112	264
+Total	261	250	511

@@ -1,0 +1,7 @@
+	Gore	Bush	Total
+NoHS	16	99	115
+HS	55	128	183
+College		78	133	211
+University	59	133	192
+post-graduate	51	115	166
+total		259	608	867
