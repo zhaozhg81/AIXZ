@@ -1,4 +1,4 @@
-cheese <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/cheese.txt", header=TRUE)
+cheese <- read.table("data/cheese.txt", header=TRUE)
 
 
 ## psudo-manual calculation
@@ -62,3 +62,15 @@ plot( resid )
 resid.std <- ( resid - mean(resid) )/sqrt( var(resid) )
 plot( resid.std )
 ks.test( resid.std, 'pnorm' )
+
+
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+## Partial and sequential t test
+lm.fit <- lm( taste ~ Acetic + H2S + Lactic, data = cheese )
+summary(lm.fit)
+anova(lm.fit)

@@ -1,6 +1,6 @@
 ## Example: Mental hospital admissions during full moons.
 
-fm <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/fullmoon.txt", header = TRUE)
+fm <- read.table("data/fullmoon.txt", header = TRUE)
 adm <- fm$Admission
 
 Month.char <-  c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")

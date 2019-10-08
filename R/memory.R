@@ -2,7 +2,7 @@
 
 # Example: Age and Memory
 
-memory <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/memory.txt", header = TRUE)
+memory <- read.table("data/memory.txt", header = TRUE)
 N <- dim(memory)[1]
 a <- 2
 b <- 5

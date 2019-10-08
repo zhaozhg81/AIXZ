@@ -1,4 +1,4 @@
-olymp <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/olympic.txt", header=TRUE)
+olymp <- read.table("data/olympic.txt", header=TRUE)
 
 plot( LongJump ~ Year, data=olymp)
 

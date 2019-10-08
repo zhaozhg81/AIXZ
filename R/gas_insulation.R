@@ -1,6 +1,6 @@
 
 ## Categorical predictor
-insulgas <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/insulgas.txt", header=TRUE)
+insulgas <- read.table("data/insulgas.txt", header=TRUE)
 
 insulgas
 plot(Gas[Insulate == "Before"] ~ Temp[Insulate == "Before"], xlab = "Outside Temperature", ylab = "Gas Consumption",  data = insulgas)

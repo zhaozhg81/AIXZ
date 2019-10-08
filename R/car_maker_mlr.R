@@ -1,6 +1,6 @@
 
 ## Example car_maker
-car.maker <- read.table("http://astro.temple.edu/~zhaozhg/Stat8112/data/Car_Maker.csv", header=TRUE,sep=",")
+car.maker <- read.table("data/Car_Maker.csv", header=TRUE,sep=",")
 
 car.lm <- lm( price ~ age + maker , data=car.maker )
 summary( car.lm )

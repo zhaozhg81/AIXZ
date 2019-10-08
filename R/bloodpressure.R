@@ -1,4 +1,4 @@
-bp <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/bloodpress.txt", header=TRUE)
+bp <- read.table("data/bloodpress.txt", header=TRUE)
 
 cor( cbind( bp$Age, bp$Weight, bp$BSA, bp$Dur, bp$Pulse, bp$Stress) )
 pairs(~Age+Weight+BSA+Dur+Pulse+Stress, data=bp)
