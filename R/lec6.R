@@ -227,3 +227,5 @@ ks.test( X6032.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
 
 shapiro.test(income)
 shapiro.test(log(income))
+
+###
