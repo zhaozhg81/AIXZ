@@ -87,3 +87,6 @@ points( den.treat.1$x, den.treat.1$y, 'l',  col='green', lwd=3 )
 legend(x=2, y=0.4, col=c("red","green"), c("Control","Treatment"), lty=c(1,1), lwd=c(3,3), cex=2 )
 ks.test( X6032.control, 'pnorm', mean(X3.control), sqrt(var(X3.control)) )
 ks.test( X6032.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
+
+ks.test( X6032.control, X6032.treat)
+ks.test(X3.control, X3.treat)
