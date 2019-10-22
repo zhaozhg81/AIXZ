@@ -9,23 +9,6 @@ hist(income.all$Median)
 income <- income.all$Median[ (income.all$Median >0 ) &( income.all$Median < 300000)  ]
 
 
-
-
-## Plot the density function and the likelihood function of N(\theta, 1)
-##              theta=1
-##              X=1
-par(mfrow=c(1,2))
-x <- c(1:1000)/100
-postscript( file="./figure/density.eps",horizontal=FALSE)
-plot(x, dexp( x, 1), 'l', col='red', xlab="x", ylab="density", main="pdf", cex.lab=1.5, cex.main=2)
-dev.off()
-
-lambda.all <- c(1:1000)/100
-## postscript( file="./figure/likelihood.eps",horizontal=FALSE)
-plot(lambda.all, dexp( 1, lambda.all), 'l', col='red', xlab="lambda", ylab="likelihood", main="Likelihood", cex.lab=1.5, cex.main=2)
-## dev.off()
-
-
 Y <- log( income )
 mu.hat <- mean(Y)
 sigma.hat <- sqrt( var( Y ) )
@@ -97,44 +80,6 @@ plot( alphas, risk.all[1, ], col='red','l')
 points( alphas, risk.all[2,], col='green','l')
 legend(x=2, y= 30, c("Without Log", "Log"), col=c("red","green"), lty=c(1,1) )
 
-
-
-###################################################################################################################################################
-########################################################################################################################################################
-########################################################################################################################################################
-#### Interpretation of the coverage probability.
-library(plotrix)
-
-
-theta <- 1
-rep <- 20
-ind <- c(1:rep)
-Ls <- ind
-Us <- ind
-center <- ind
-for(i in 1:rep)
-  {
-    Y <- rnorm( 10, theta, 1 )
-    center[i] <- mean(Y)
-    Ls[i] <- mean(Y) - qt( 1-alpha/2, 9) * sqrt( var( Y ) )/sqrt( 10 )
-    Us[i] <- mean(Y) + qt( 1-alpha/2, 9) * sqrt( var( Y ) )/sqrt( 10 )
-  }
-plotCI(center, li=Ls, ui=Us, ylab="interval" )
-points(c(1,rep), c(1,1), col='red','l')
-
-### Coverage probability
-theta <- 1
-rep <- 2000
-ind <- c(1:rep)
-Ls <- ind
-Us <- ind
-for(i in 1:rep)
-  {
-    Y <- rnorm( 10, theta, 1 )
-    Ls[i] <- mean(Y) - qt( 1-alpha/2, 9) * sqrt( var( Y ) )/sqrt( 10 )
-    Us[i] <- mean(Y) + qt( 1-alpha/2, 9) * sqrt( var( Y ) )/sqrt( 10 )
-  }
-cov <- mean( (theta>Ls)*(theta<Us))
 
 
 
