@@ -29,7 +29,7 @@ reduced.model.insul <- lm( Gas ~ Temp, data=insulgas)
 full.model.insul <- lm( Gas ~ Insulate + Temp, data=insulgas)
 anova( full.model.insul )
 
-
+anova( reduced.model.insul, full.model.insul )
 
 ################################################
 ################################################
