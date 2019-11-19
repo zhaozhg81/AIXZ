@@ -39,7 +39,7 @@ null.model.cheese <- lm( taste ~ 1, data=cheese )
 full.model.cheese <- lm( taste ~ Acetic + H2S + Lactic, data = cheese )
 anova( full.model.cheese )
 
-anova( null.model.insul,reduced.model.insul, full.model.insul )
+anova(reduced.model.insul, full.model.insul )
 
 ################################################
 ################################################################################################
