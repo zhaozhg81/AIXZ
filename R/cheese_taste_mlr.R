@@ -45,10 +45,15 @@ Conf.Int <- predict( cheese.lm.fit, newdata2, interval="confidence" , level=0.9)
 ########################################################################
 ########################################################################
 
-anova( null.model.cheese, full.model.cheese )
 
+null.model.cheese <- lm( taste ~ 1, data = cheese )
+reduced.model.cheese <- lm( taste ~ Acetic + H2S, data = cheese )
+anova( null.model.cheese, reduced.model.cheese, full.model.cheese )
 
+anova( reduced.model.cheese, full.model.cheese)
+anova( full.model.cheese)
 
+anova( lm( taste ~ Lactic+ H2S + Acetic, data = cheese ) )
 
 ########################################################################
 ########################################################################
