@@ -4,7 +4,7 @@ library( dplyr )
 library( lmtest )
 
 ## Load the data
-d <- read.csv('http://www.bodowinter.com/tutorial/politeness_data.csv')
+d <- read.csv('./data/politeness_data.csv')
 str(d)
 
 ## Change the name of the data
