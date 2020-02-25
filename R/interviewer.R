@@ -1,4 +1,4 @@
-apex <- read.table("data/apexdata.txt",header=TRUE)
+apex <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/apexdata.txt",header=TRUE)
 
 tapply(apex$Evaluation,apex$Officer,mean)
 
