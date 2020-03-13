@@ -1,7 +1,7 @@
 library(fields)
 
 
-wine <- read.table("data/wine.data",sep=",")
+wine <- read.table("./data/wine.data",sep=",")
 
 ## Pairwise scatterplot
 pairs(~., data=wine[,2:14])
