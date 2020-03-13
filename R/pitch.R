@@ -60,11 +60,3 @@ res4 = lmer(pitch ~ gender + (1 | subject), REML = FALSE, data = d)
 res4b = lmer(pitch ~ condition + gender + (1 | subject), REML = FALSE, data = d)
 anova(res4, res4b, refit=FALSE)
 lrtest( res4, res4b )
-
-## Item effects
-res4 = lmer(pitch ~ condition + gender + (1|subject) + (1|scenario), data=d)
-anova( res3, res4, refit=FALSE )
-lrtest( res4, res3 )
-
-res4b = lmer(pitch ~ condition + gender + (1|subject) + (1 + condition|scenario), data=d)
-lrtest(res4b, res4)
