@@ -1,0 +1,6 @@
+
+dat = read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/score_phy_stat.dat",head=T)
+plot(dat$Phys, dat$Stat)
+
+pc = princomp(~Stat+Phys,dat)
+pc$loading

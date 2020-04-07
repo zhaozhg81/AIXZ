@@ -1,6 +1,7 @@
 library(VGAM)
 library(nnet)
 library(exactLoglinTest)
+library(reshape2)
 data(alligator.dat)
 
 
@@ -25,6 +26,8 @@ multi.model.para <- vglm( cbind(count.1,count.2,count.3,count.4,count.5)~ size+g
 
 
 multi.model <- vglm( cbind(count.1,count.2,count.3,count.4,count.5)~ size+gender+lake, data=alligator, fam=multinomial(parallel=FALSE) )
+lrtest( multi.model.para, multi.model )
+
 
 ## maximum likelihood estimates
 estimate <- matrix( coef( multi.model), ncol=6 )
@@ -37,4 +40,7 @@ estimate
 prob <- predict( multi.model, type="response" )
 colnames( prob ) <- c("1", "2", "3", "4", "5")
 pred.prob <- data.frame( prob=prob, size=sizegroup, gender=gender, lake=lake)
-pred.prob <- melt( pred.prob )
+
+library(tidyr)
+pred.prob <- pred.prob%>% spread(variable,value)
+

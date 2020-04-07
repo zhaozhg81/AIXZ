@@ -1,8 +1,9 @@
 library(VGAM)
 library(reshape2)
+library(ggplot2)
 
 
-dat <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/highschool.csv",header=TRUE, sep=",")
+dat <- read.table("./data/highschool.csv",header=TRUE, sep=",")
 
 
 ## Preprocessing the dataset

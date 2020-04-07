@@ -41,7 +41,7 @@ legend("topleft",lty=1, col=c(1,"blue","red","green"),
   c("data", expression(alpha == 0.2), expression(alpha == 0.6),
     expression(alpha == 0.9999)),pch=1)
 
-plot.forecast( fit3 )
+plot( forecast( fit3 ) )
 acf(fit3$residuals, lag.max=20)
 Box.test(fit3$residuals, lag=20, type="Ljung-Box")
 ks.test( ( fit3$residuals -mean(fit3$residuals) )/sqrt( var(fit3$residuals)), 'pnorm' )
@@ -56,32 +56,45 @@ rainseriesforecasts <- ses(rainseries, alpha=0.01, h=3)
 sum( rainseriesforecasts$residuals^2 )
 plot( forecast(rainseriesforecasts) )
 Box.test(rainseriesforecasts$residuals, lag=20, type="Ljung-Box")
+plot( acf( rainseriesforecasts$residuals ) )
+
+rainseriesforecasts2 <- ses(rainseries, alpha=0.5, h=3)
+plot( acf( rainseriesforecasts2$residuals ) )
 
 
-## This is a time series of the annual diameter of women’s skirts at the hem, from 1866 to 1911. The data is available in
-## the file http://robjhyndman.com/tsdldata/roberts/skirts.dat (original data from Hipel and McLeod, 1994).
-
-skirts <- scan("./data/skirts.dat",skip=5)
-skirtsseries <- ts(skirts,start=c(1866))
-plot.ts(skirtsseries)
-f.skirts <- ses(skirtsseries, alpha=0.95, h=20)
-plot( forecast(f.skirts) )
-acf( f.skirts$residuals )
-
-
-
-## Yield difference in Neitherlands
+## Yield in Neitherlands
 yield <- read.table("./data/yield.txt")
 plot.ts(yield)
+acf( yield ) 
 pacf( yield )
 ar.yield <- arima( yield$V1, order=c(1,0,0 ) )
-summary( ar.yield )
+ar.yield
 acf( ar.yield$residuals )
+
 Box.test( ar.yield$residuals, lag=20, type="Ljung-Box" )
 
-ar.forecast.yield <- forecast.Arima( ar.yield, h=20 )
-plot.forecast( ar.forecast.yield )
+ar.forecast.yield <- forecast( ar.yield, h=20 )
+plot( ar.forecast.yield ) 
 
+ma.yield <- arima( yield$V1, order=c(0,0,1) )
+acf( ma.yield$residuals )
+
+## Simulated data from MA(1)
+T <- 1000
+theta=0.5
+z.ma <- array(0, T)
+z.ma[1] <- rnorm(1)
+eps.prev <- z.ma[1]
+for(t in 2:T)
+  {
+    eps <- rnorm(1)
+    z.ma[t] <- eps - 0.8 * eps.prev
+    eps.prev <- eps
+  }
+
+pacf( z.ma )
+
+acf( z.ma )
 
 ## Difference of Elnino data: monthly El Nino data from 1955 to 1992.
 ## El Nino effect is thought to be a driver of world-wide weather.
@@ -89,44 +102,46 @@ plot.forecast( ar.forecast.yield )
 library(HH)
 data(elnino)
 plot.ts(elnino)
+acf( elnino )
+pacf( elnino )
+
 d.elnino <- diff(elnino)
 pacf( d.elnino )
-acf( d.elnino )
-
+acf( d.elnino ) 
 
 ma.d.elnino <- arima( d.elnino, order=c(0,0,1) )
 summary( ma.d.elnino )
 
-acf( ma.d.elnino$residuals )
+plot( acf( ma.d.elnino$residuals ) )
 Box.test( ma.d.elnino$residuals, lag=20, type="Ljung-Box" )
-ma.forecast.elnino <- forecast.Arima( ma.d.elnino, h=2 )
-plot.forecast( ma.forecast.elnino )
+ma.forecast.elnino <- forecast( ma.d.elnino, h=2 )
+plot( ma.forecast.elnino )
 
 
 ## Iowa Nonfarm-Income
 iowa <- read.table("./data/iowa_nonfarm_income.txt")$V1
 rate <- diff(iowa)/iowa[1: (length(iowa)-1)]*100
 
-plot.ts(rate)
-arma.iowa <- Arima( rate, order=c(1,0,1) )
-
 d.rate <- diff(rate)
 plot.ts( d.rate )
+
 arma.diff.iowa <- Arima( d.rate, order=c(0,0,1) )
+plot( acf( arma.diff.iowa$residuals )) 
+plot( pacf( arma.diff.iowa$residuals )) 
+
+
+## Using ARIMA model with difference
 arima.iowa <- Arima( rate, order=c(0,1,1) )
 iowa.forecast <- forecast.Arima( arima.iowa, h=2 )
 plot.forecast( iowa.forecast )
 
-acf( iowa.forecast$residuals )
-Box.test( iowa.forecast$residuals, lag=20, type="Ljung-Box" )
-ks.test( iowa.forecast$residuals/sqrt(var(iowa.forecast$residuals)),'pnorm')
 
+####
+## Model with seasonal trend
 
 ## Gas usage in Iowa State
 gas <- read.table("./data/gas_iowa.txt")$V1
 gas <- ts(gas, start=1971, freq=12 )
-
-house <- read.table("./data/housing_starts.txt")$V1
 plot.ts( gas )
 
 acf( gas )
@@ -134,10 +149,12 @@ Season.diff <- diff( gas, lag=12 )
 acf( Season.diff )
 
 ## We decide to use (0,0,1) (0,1,0)_S
-season.arima <- Arima(gas, order=c(0,0,1), seasonal=list(order=c(0,1,0)) )
-acf( season.arima$residuals )
-Box.test( season.arima$residuals, lag=20, type="Ljung-Box" )
-
+gas.arima <- arima(gas, order=c(0,0,1), seasonal=list(order=c(0,1,0)) )
+acf( gas.arima$residuals )
+Box.test( gas.arima$residuals, lag=20, type="Ljung-Box" )
+gas.arima.2 <- arima(gas, order=c(0,0,1), seasonal=list(order=c(0,1,1)) )
+Box.test( gas.arima.2$residuals, lag=20, type="Ljung-Box" )
+plot( forecast( gas.arima.2, h=20 ))
 
 
 ## Housing Start Price
@@ -149,12 +166,12 @@ plot.ts( house )
 acf( house )
 Season.diff <- diff( house, lag=12 )
 acf( Season.diff )
+pacf( Season.diff )
 
 Season.diff.diff <- diff( Season.diff )
 acf( Season.diff.diff )
 
-
-## We decide to use (1,1,0) (1,1,0)_S
-season.arima <- Arima(house, order=c(0,1,1), seasonal=list(order=c(0,1,1)) )
-acf( season.arima$residuals )
-Box.test( season.arima$residuals, lag=20, type="Ljung-Box" )
+house.arima <- arima(house, order=c(2,0,0), seasonal=list(order=c(1,1,0)) )
+acf( house.arima$residuals )
+Box.test( house.arima$residuals, lag=20, type="Ljung-Box" )
+plot( forecast( house.arima, h=20 ) )

@@ -1,5 +1,5 @@
 library(VGAM)
-pneumo.df <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/pneumo.txt", header=T)
+pneumo.df <- read.table("./data/pneumo.txt", header=T)
 pneumo.df
 
 attach(pneumo.df)

@@ -2,7 +2,7 @@ library(MASS)
 library(lmtest)
 
 
-ceb <- read.table("data/ceb.txt", header=TRUE)
+ceb <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/ceb.txt", header=TRUE)
 ceb$y <- floor( ceb$y )
 
 ## Pois
@@ -54,3 +54,7 @@ exp( cbind( Estimate=coef(ceb.nb), confint(ceb.nb)) )
 
 ## Prediction
 predict( ceb.nb )
+
+##
+ceb.pois.2 <- glm( y~educ + res + dur, offset=log(n), family=poisson("log"), data=ceb )
+lrtest( ceb.pois.2, ceb.nb )
