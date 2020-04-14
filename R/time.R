@@ -112,10 +112,13 @@ acf( d.elnino )
 ma.d.elnino <- arima( d.elnino, order=c(0,0,1) )
 summary( ma.d.elnino )
 
-plot( acf( ma.d.elnino$residuals ) )
+acf( ma.d.elnino$residuals ) 
 Box.test( ma.d.elnino$residuals, lag=20, type="Ljung-Box" )
-ma.forecast.elnino <- forecast( ma.d.elnino, h=2 )
+ma.forecast.elnino <- forecast( ma.d.elnino, h=20 )
 plot( ma.forecast.elnino )
+
+elnino.arima = arima( elnino, order=c(0,1,1) )
+acf( elnino.arima$residuals)
 
 
 ## Iowa Nonfarm-Income
@@ -126,14 +129,13 @@ d.rate <- diff(rate)
 plot.ts( d.rate )
 
 arma.diff.iowa <- Arima( d.rate, order=c(0,0,1) )
-plot( acf( arma.diff.iowa$residuals )) 
-plot( pacf( arma.diff.iowa$residuals )) 
+acf( arma.diff.iowa$residuals )
 
 
 ## Using ARIMA model with difference
 arima.iowa <- Arima( rate, order=c(0,1,1) )
-iowa.forecast <- forecast.Arima( arima.iowa, h=2 )
-plot.forecast( iowa.forecast )
+iowa.forecast <- forecast( arima.iowa, h=20 )
+plot( iowa.forecast )
 
 
 ####
@@ -144,16 +146,20 @@ gas <- read.table("./data/gas_iowa.txt")$V1
 gas <- ts(gas, start=1971, freq=12 )
 plot.ts( gas )
 
-acf( gas )
+acf( gas, lag=50 )
 Season.diff <- diff( gas, lag=12 )
-acf( Season.diff )
+acf( Season.diff, lag=50 )
 
 ## We decide to use (0,0,1) (0,1,0)_S
 gas.arima <- arima(gas, order=c(0,0,1), seasonal=list(order=c(0,1,0)) )
 acf( gas.arima$residuals )
 Box.test( gas.arima$residuals, lag=20, type="Ljung-Box" )
+
+## We decide to use (0,0,1) (0,1,1)
 gas.arima.2 <- arima(gas, order=c(0,0,1), seasonal=list(order=c(0,1,1)) )
 Box.test( gas.arima.2$residuals, lag=20, type="Ljung-Box" )
+acf( gas.arima.2$residuals )
+
 plot( forecast( gas.arima.2, h=20 ))
 
 
@@ -163,13 +169,11 @@ house <- ts(house, start=1965, freq=12 )
 
 plot.ts( house )
 
-acf( house )
+acf( house, lag=48 )
 Season.diff <- diff( house, lag=12 )
-acf( Season.diff )
-pacf( Season.diff )
+acf( Season.diff, lag=48 )
+pacf( Season.diff, lag=48 )
 
-Season.diff.diff <- diff( Season.diff )
-acf( Season.diff.diff )
 
 house.arima <- arima(house, order=c(2,0,0), seasonal=list(order=c(1,1,0)) )
 acf( house.arima$residuals )
