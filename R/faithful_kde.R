@@ -122,3 +122,11 @@ for(i in 1:length( xaxis ) )
 
 plot( xaxis, emp.cdf, main="Faithful", xlab="X", ylab="cdf", cex.main=2, cex.lab=1.5,'l', lwd=3, col='red' )
 
+
+
+## Gaussian Mixture Model
+em.esti <- EM( X, K=2, pi.ini= c(0.5,0.5), mu.ini=c(-1,1), sigma.ini=c(1,1), verbose=TRUE )
+
+
+ks.res = ks_test_GMM( X, 2, em.esti$pi.esti, em.esti$mu.esti, em.esti$sigma.esti )
+  

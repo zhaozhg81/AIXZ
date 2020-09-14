@@ -1,3 +1,5 @@
+library(kolmim)
+
 ks_test <- function( data, distribution, ...)
   {
     ## data: a vector of the data set
@@ -49,3 +51,23 @@ ks_test <- function( data, distribution, ...)
     list( ks.stat=ks.stat, sample_size=n, distribution=distribution, para=para)
     
   }
+
+ks_test_GMM <- function( data, K, pi, mu, sigma)
+{
+  ## data: a vector of the data set
+
+  n <- length( data )
+  data.sort <- sort(data, decreasing=FALSE )
+  
+  
+  cdf.gmm <- array(0, n)
+  for(i in 1:n)
+  {
+    cdf.gmm[i] =  sum( pi * pnorm( data.sort[i], mu, sigma, lower.tail=TRUE) )
+  }
+    
+  ks.stat <- max( abs( cdf.gmm - c(0:(n-1))/n), abs( cdf.gmm-c(1:n)/n) )
+    
+  list( ks.stat=ks.stat, sample_size=n, p.value = pkolm(ks.stat, n ) )
+  
+}
