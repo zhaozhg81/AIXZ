@@ -18,3 +18,5 @@ cook.dist.remove <- cooks.distance( longjump.remove.outlier )
 par( mfrow=c(2,1) )
 dotchart( pf( cook.dist,p+1, 20-(p+1) ), xlim=c(0,1) )
 dotchart( pf( cook.dist.remove, p+1, 18-(p+1)), xlim=c(0,1) )
+
+

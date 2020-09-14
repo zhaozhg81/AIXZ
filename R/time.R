@@ -162,6 +162,12 @@ acf( gas.arima.2$residuals )
 
 plot( forecast( gas.arima.2, h=20 ))
 
+gas.arima.3 <- arima(gas, order=c(1,0,0), seasonal=list(order=c(2,1,0)) )
+acf( gas.arima.3$residuals )
+
+gas.arima.4 <- arima(gas, order=c(0,0,1), seasonal=list(order=c(2,1,0)) )
+acf( gas.arima.4$residuals )
+
 
 ## Housing Start Price
 house <- read.table("./data/housing_starts.txt")$V1
@@ -171,6 +177,8 @@ plot.ts( house )
 
 acf( house, lag=48 )
 Season.diff <- diff( house, lag=12 )
+Season.diff.2 <- diff( Season.diff )
+
 acf( Season.diff, lag=48 )
 pacf( Season.diff, lag=48 )
 
@@ -178,4 +186,13 @@ pacf( Season.diff, lag=48 )
 house.arima <- arima(house, order=c(2,0,0), seasonal=list(order=c(1,1,0)) )
 acf( house.arima$residuals )
 Box.test( house.arima$residuals, lag=20, type="Ljung-Box" )
+plot( forecast( house.arima, h=25 ) )
+
+house.arima.2 <- arima(house, order=c(2,0,0), seasonal=list(order=c(4,1,0)) )
+acf( house.arima.2$residuals, lag=50 )
+Box.test( house.arima$residuals, lag=25, type="Ljung-Box" )
 plot( forecast( house.arima, h=20 ) )
+
+house.arima.3 <- arima( house, order=c(0,1,1), seasonal=list( order=c(0,1,1) ))
+acf( house.arima.3$residuals)
+Box.test( house.arima.3$residuals, lag=25, type="Ljung-Box" )
