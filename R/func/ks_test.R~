@@ -1,4 +1,0 @@
-ks_test <- function( data, distribution, ...)
-  {
-    
-  }
