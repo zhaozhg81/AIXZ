@@ -1,3 +1,5 @@
+library( kolmim )
+
 
 ### KDE and empirical distribution function
 data(faithful)
@@ -127,6 +129,16 @@ plot( xaxis, emp.cdf, main="Faithful", xlab="X", ylab="cdf", cex.main=2, cex.lab
 ## Gaussian Mixture Model
 em.esti <- EM( X, K=2, pi.ini= c(0.5,0.5), mu.ini=c(-1,1), sigma.ini=c(1,1), verbose=TRUE )
 
+mar(frow=c(1,2))
+plot( xaxis, em.esti$pi.esti[1] * pnorm( xaxis, em.esti$mu.esti[1], em.esti$sigma.esti[1]) + em.esti$pi.esti[2] * pnorm(xaxis, em.esti$mu.esti[2], em.esti$sigma.esti[2]), 'l', col='red' )
+points( xaxis, emp.cdf, col='green', 'l') 
 
+hist(X, breaks=20, freq=FALSE )
+points( xaxis, em.esti$pi.esti[1] * dnorm( xaxis, em.esti$mu.esti[1], em.esti$sigma.esti[1]) + em.esti$pi.esti[2] * dnorm(xaxis, em.esti$mu.esti[2], em.esti$sigma.esti[2]), 'l', col='red' )
+points(xaxis, fnorm.cv.hat, 'l', col='green' )
+
+
+
+## KS test for mixture of normal
 ks.res = ks_test_GMM( X, 2, em.esti$pi.esti, em.esti$mu.esti, em.esti$sigma.esti )
   
