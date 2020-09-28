@@ -4,8 +4,8 @@
 ########################################################################################################################################################
 ########################################################################################################################################################
 #### Example 4.3.4
-X <- read.table("http://astro.temple.edu/~zhaozhg/Stat8003/data/prostate_X.csv",sep=",")
-Y <- read.table("http://astro.temple.edu/~zhaozhg/Stat8003/data/prostate_Y.csv",sep=",")
+X <- read.table("./data/prostate_X.csv",sep=",")
+Y <- read.table("./data/prostate_Y.csv",sep=",")
 
 equalvar <- function(Xi, group)
   {
@@ -47,6 +47,7 @@ testvariance <- function(Xi, group )
     
     F.stat <- s1/s2
     pvalue <- 2*(F.stat <= 1)*pf( F.stat, n1-1, n2-1 ) +  2*(F.stat>1) * (1-pf( F.stat,n1-1,n2-1) )     
+    
   }
 
 pvalue.equalvar <- apply( X, 1, equalvar, Y)
@@ -71,7 +72,7 @@ den.control.1 <- density(X3.control )
 den.treat.1 <- density(X3.treat )
 plot( den.control.1$x, den.control.1$y, 'l', main="Density under two conditions", xlab="expression", ylab="density", cex.main=2, cex.lab=1.5, col='red',lwd=3 )
 points( den.treat.1$x, den.treat.1$y, 'l',  col='green', lwd=3 )
-legend(x=2, y=0.4, col=c("red","green"), c("Control","Treatment"), lty=c(1,1), lwd=c(3,3), cex=2 )
+legend(x=1, y=0.3, col=c("red","green"), c("Control","Treatment"), lty=c(1,1), lwd=c(3,3), cex=1 )
 
 ks.test( X3.control, 'pnorm', mean(X3.control), sqrt(var(X3.control)) )
 ks.test( X3.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
@@ -84,7 +85,7 @@ den.control.1 <- density(X6032.control )
 den.treat.1 <- density(X6032.treat )
 plot( den.control.1$x, den.control.1$y, 'l', main="Density under two conditions", xlab="expression", ylab="density", cex.main=2, cex.lab=1.5, col='red',lwd=3 )
 points( den.treat.1$x, den.treat.1$y, 'l',  col='green', lwd=3 )
-legend(x=2, y=0.4, col=c("red","green"), c("Control","Treatment"), lty=c(1,1), lwd=c(3,3), cex=2 )
+legend(x=0, y=0.8, col=c("red","green"), c("Control","Treatment"), lty=c(1,1), lwd=c(3,3), cex=1 )
 ks.test( X6032.control, 'pnorm', mean(X3.control), sqrt(var(X3.control)) )
 ks.test( X6032.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
 
