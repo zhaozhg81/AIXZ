@@ -1,0 +1,4 @@
+Gender,Long Ranger, Sesame Street, The Simpsons, Total
+Boys, 50,30,20,100
+Girls,50,80,70,200
+Total,100,110,90,300
