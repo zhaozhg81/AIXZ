@@ -91,3 +91,4 @@ ks.test( X6032.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
 
 ks.test( X6032.control, X6032.treat)
 ks.test(X3.control, X3.treat)
+

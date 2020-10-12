@@ -58,16 +58,16 @@ ks_test_GMM <- function( data, K, pi, mu, sigma)
 
   n <- length( data )
   data.sort <- sort(data, decreasing=FALSE )
+  cdf.gmm = array(0, n)
   
-  
-  cdf.gmm <- array(0, n)
-  for(i in 1:n)
+  for(k in 1:K)
   {
-    cdf.gmm[i] =  sum( pi * pnorm( data.sort[i], mu, sigma, lower.tail=TRUE) )
+    cdf.gmm = cdf.gmm + pi[k] * pnorm( data.sort, mu[k], sigma[k], lower.tail=TRUE)
   }
-    
+  
+
   ks.stat <- max( abs( cdf.gmm - c(0:(n-1))/n), abs( cdf.gmm-c(1:n)/n) )
     
-  list( ks.stat=ks.stat, sample_size=n, p.value = pkolm(ks.stat, n ) )
+  list( ks.stat=ks.stat, sample_size=n )
   
 }

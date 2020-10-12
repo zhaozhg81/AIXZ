@@ -19,3 +19,16 @@ poll2.test <- chisq.test( x2[1:5,1:2] )
 
 
 
+## 
+movie <- read.table( "data/Movie_Gender.txt", header=TRUE, sep="," )
+x1 <- movie[1:2, 2:4 ]
+row.total = array( apply( x1, 1, sum), c(2,1) )
+col.total = array( apply( x1, 2, sum), c(1,3) )
+row.total = row.total%x% array(1, c(1,3))
+col.total = array(1, c(2,1)) %x% col.total
+x1.exp <- row.total * col.total/sum(x1)
+  
+test.stat <- sum( (x1-x1.exp)^2/x1.exp )
+
+
+movie.test <- chisq.test( x1 )

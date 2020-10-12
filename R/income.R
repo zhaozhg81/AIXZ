@@ -89,3 +89,9 @@ ks.test( log(income), 'pnorm', mean( log(income) ), sd( log(income) ) )
 ## K-S Test for gamma distribution
 
 ks.test(income, 'pgamma', alpha.hat,1/beta.hat )
+
+hist(log(income), freq=FALSE)
+## Gaussian mixture model
+income.em.esti <- EM( log(income), K=2, pi.ini= c(0.5,0.5), mu.ini=c(9,11), sigma.ini=c(1,1), verbose=TRUE )
+
+ks.res = ks_test_GMM( log(income), 2, income.em.esti$pi.esti, income.em.esti$mu.esti, income.em.esti$sigma.esti )

@@ -28,10 +28,10 @@ EM <- function(X, K=2, pi.ini=c(0.5,0.5), mu.ini=c(-1,1), sigma.ini=c(1,1), DELT
     {
       l.fdr[,k] = pi.old[k]* dnorm(X, mu.old[k], sigma.old[k] )
     }
-    
+    colsum  = apply( l.fdr, 1, sum )
     for(k in 1:K)
     {
-      l.fdr[,k] = l.fdr[,k]/apply(l.fdr,1,sum)
+      l.fdr[,k] = l.fdr[,k]/colsum
       mu.new[k] = sum( l.fdr[,k] * X )/sum( l.fdr[,k])
       sigma.new[k] = sqrt( sum( (X-mu.new[k])^2*l.fdr[,k] )/sum( l.fdr[,k]) )
     }
