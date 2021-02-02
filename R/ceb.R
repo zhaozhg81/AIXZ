@@ -60,8 +60,6 @@ exp( cbind( Estimate=coef(ceb.nb), confint(ceb.nb)) )
 ## Prediction
 predict( ceb.nb )
 
-ceb.nb.2 <- glm( y~  educ + res, offset= log(n), family= negative.binomial(1), data=ceb )
-
 
 ceb.pois.3 <- glm( y~ dur+educ + res, offset=log(n), family=poisson("log"), data=ceb )
 summary(ceb.pois.3)

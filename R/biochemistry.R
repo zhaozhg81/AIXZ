@@ -1,4 +1,6 @@
 library(MASS)
+library(pscl)
+
 
 biochem <- read.csv("./data/biochemist.csv")
 
@@ -36,7 +38,6 @@ xb <- predict(biochem.nb)
 g <- cut(xb, breaks=quantile(xb,seq(0,100,5)/100))
 
 m <- tapply(biochem$art, g, mean)
-
 v <- tapply(biochem$art, g, var)
 
 
@@ -73,3 +74,5 @@ mu <- predict(biochem.zip,type="count") # μ
 
 zip <- pr + (1-pr)*exp(-mu) # also predict(mzip,type="prob")[,1]
 mean(zip)
+
+vuong( biochem.zip, biochem.poi )
