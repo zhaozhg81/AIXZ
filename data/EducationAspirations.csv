@@ -1,0 +1,17 @@
+Social,Education,Plan,Count
+Lower,Low,No,749
+Lower,Low,Yes,35
+Lower,High,No,233
+Lower,High,Yes,133
+LowerMiddle,Low,No,627
+LowerMiddle,Low,Yes,38
+LowerMiddle,High,No,330
+LowerMiddle,High,Yes,303
+UpperMiddle,Low,No,420
+UpperMiddle,Low,Yes,37
+UpperMiddle,High,No,374
+UpperMiddle,High,Yes,467
+Higher,Low,No,153
+Higher,Low,Yes,26
+Higher,High,No,266
+Higher,High,Yes,800

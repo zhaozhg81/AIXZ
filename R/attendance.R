@@ -48,3 +48,14 @@ newdata1 <- within(newdata1, {
 ggplot( newdata1, aes( math, DaysAbsent )) +
   geom_line(aes(colour = prog), size = 2) +
   labs(x = "Math Score", y = "Predicted Days Absent")
+
+
+
+## zero inflated poisson
+zobs <- dat$daysabs == 0
+zpoi <- dpois(0,exp(predict(attend.pois)))
+c(obs=mean(zobs), poi=mean(zpoi))
+
+attend.zip <- zeroinfl(daysabs~ math+prog, data=dat)
+
+summary(attend.zip)
