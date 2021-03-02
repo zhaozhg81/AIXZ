@@ -1,10 +1,9 @@
-apex <- read.table("http://astro.temple.edu/~zhaozhg/Stat8113/data/apexdata.txt",header=TRUE)
 apex <- read.table("./data/apexdata.txt",header=TRUE)
 
 tapply(apex$Evaluation,apex$Officer,mean)
 
 par(mar = c(4.5,4.5,1,1))
-plot(Evaluation ~ Officer, data = apex, xlab="Interviewer", ytab="Rating")
+boxplot(Evaluation ~ Officer, data = apex, xlab="Interviewer", ytab="Rating")
 
 library("nlme")
 fm1 <- lme(Evaluation ~ 1, data = apex, random = ~ 1|Officer)
@@ -23,3 +22,5 @@ aov.fm1 <- aov( Evaluation ~ Error( Officer ), data=apex )
 summary( aov.fm1 )
 F.stat <- 396.7/73.2
 p.value <- 1- pf( F.stat, 4, 15 )
+
+ICC = 396.7/(396.7+73.2)

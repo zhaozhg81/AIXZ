@@ -17,7 +17,7 @@ tmp = nncopy( unlist(poll1.ori[3,1:2]), 2, 1  )
 tmp2 = nncopy( unlist(poll1.ori[1:2,3]),2, 2 )
 mu.hat1 <- tmp * tmp2/poll1.total
   
-lrt.test1 = 2 * sum( poll1.ori[1:2,1:2] * log( poll1.ori[1:2,1:2]/mu.hat) )
+lrt.test1 = 2 * sum( poll1.ori[1:2,1:2] * log( poll1.ori[1:2,1:2]/mu.hat1) )
   
 
 poll1 <- data.frame( expand.grid( c("Men","Women"),c("Gore","Bush") ) ) 
@@ -80,4 +80,8 @@ Edu.log.m0 = glm( cbind(Yes, No)~1, family=binomial(link="logit"), data=EduAspir
 Edu.log.m1 = glm( cbind(Yes, No)~Social, family=binomial(link="logit"), data=EduAspiration2)
 Edu.log.m2 = glm( cbind(Yes, No)~ Education, family=binomial(link="logit"), data=EduAspiration2)
 Edu.log.m3 = glm( cbind(Yes, No)~ Social + Education, family=binomial(link="logit"), data=EduAspiration2)
-    
+
+summary.tabulate.logit = data.frame ( c("Null","S","E","S+E") )
+colnames(summary.tabulate.logit)=c("Model")
+summary.tabulate.logit$Deviance = c( Edu.log.m0$deviance, Edu.log.m1$deviance, Edu.log.m2$deviance, Edu.log.m3$deviance)
+summary.tabulate.logit$df = c( Edu.log.m0$df.residual,   Edu.log.m1$df.residual,   Edu.log.m2$df.residual,   Edu.log.m3$df.residual )

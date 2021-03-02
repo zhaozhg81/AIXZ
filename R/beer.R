@@ -11,10 +11,10 @@ Brand <- factor(paste("Brand",rep(1:6,rep(8,6)), sep=""))
 Bottle <- rep(1:8,6)
 beer <- data.frame(Sodium,Brand,Bottle)
 
-post.script("./figure/beer.eps",horizontal=FALSE)
+## post.script("./figure/beer.eps",horizontal=FALSE)
 par(mar = c(4.5,4.5,1,3.5))
 boxplot(Sodium ~ Brand, data = beer, xlab = "Brand", ylab = "Sodium")
-dev.off()
+## dev.off()
 
 fm3 <- lme(Sodium ~ 1, data = beer, random = ~ 1|Brand)
 
@@ -30,3 +30,5 @@ summary( aov.fm3 )
 
 F.stat <- 170.9/0.716
 p.value <- 1- pf( F.stat, 5, 42 )
+
+ICC = 170.9/( 170.9+30.07)
