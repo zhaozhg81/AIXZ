@@ -47,6 +47,8 @@ base.logit.pca <- vglm( cbind(cult1, cult2, cult3) ~ Comp.1 + Comp.2  , data=pca
 summary(base.logit.pca)
 AIC(base.logit.pca)
 
+
+
 ## postscript("wine_scatter_pca.eps",horizontal=FALSE)
 plot(wine.pca$score[,1],wine.pca$score[,2]) # make a scatterplot
 text(wine.pca$score[,1],wine.pca$score[,2], wine$V1, cex=0.7, pos=4, col="red") # add labels
