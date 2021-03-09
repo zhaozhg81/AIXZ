@@ -17,7 +17,6 @@ image.plot(x=1:13, y=1:13, z = wine.cor, zlim = c(-0.9,0.9),col=tim.colors(64),b
 plot(wine$V4, wine$V5)
 text(wine$V4, wine$V5, wine$V1, cex=0.7, pos=4, col="red")
 
-
 stand.concent <- as.matrix(scale(wine[2:14])) # standardise the variables
 wine.pca <- princomp(stand.concent)                 # do a PCA
 summary( wine.pca )
@@ -52,6 +51,17 @@ AIC(base.logit.pca)
 plot(wine.pca$score[,1],wine.pca$score[,2]) # make a scatterplot
 text(wine.pca$score[,1],wine.pca$score[,2], wine$V1, cex=0.7, pos=4, col="red") # add labels
 ## dev.off()
+
+
+## LassoSIR
+wine.lasso.sir <- LassoSIR(as.matrix( wine[,2:14],c(178,13)), wine[,1], solution.path = FALSE,
+         categorical = TRUE, nfolds = 10, no.dim=2)
+
+X = as.matrix(wine[,2:14], c(178,13) )
+x.comb = X%*%wine.lasso.sir$beta
+plot(x.comb[,1], x.comb[,2])
+text(x.comb[,1], x.comb[,2], wine$V1, cex=0.7, pos=4, col="red") # add labels
+
 
 #### LDA
 library(MASS)
