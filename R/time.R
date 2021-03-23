@@ -42,7 +42,10 @@ legend("topleft",lty=1, col=c(1,"blue","red","green"),
     expression(alpha == 0.9999)),pch=1)
 
 plot( forecast( fit3 ) )
+acf(fit2$residuals, lag.max=20)
 acf(fit3$residuals, lag.max=20)
+
+Box.test(fit2$residuals, lag=20, type="Ljung-Box")
 Box.test(fit3$residuals, lag=20, type="Ljung-Box")
 ks.test( ( fit3$residuals -mean(fit3$residuals) )/sqrt( var(fit3$residuals)), 'pnorm' )
 
@@ -58,8 +61,8 @@ plot( forecast(rainseriesforecasts) )
 Box.test(rainseriesforecasts$residuals, lag=20, type="Ljung-Box")
 plot( acf( rainseriesforecasts$residuals ) )
 
-rainseriesforecasts2 <- ses(rainseries, alpha=0.5, h=3)
-plot( acf( rainseriesforecasts2$residuals ) )
+plot( rain, type="o" )
+plot( fitted( rainseriesforecasts), col='green', type='o')
 
 
 ## Yield in Neitherlands
