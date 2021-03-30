@@ -1,3 +1,5 @@
+figdir="~/Dropbox/Apps/Overleaf/Stat_for_Busi_Research/figure/"
+
 library(forecast)
 library(fpp)
 
@@ -91,13 +93,74 @@ eps.prev <- z.ma[1]
 for(t in 2:T)
   {
     eps <- rnorm(1)
-    z.ma[t] <- eps - 0.8 * eps.prev
+    z.ma[t] <- eps + 0.8 * eps.prev
     eps.prev <- eps
   }
 
 pacf( z.ma )
 
 acf( z.ma )
+
+postscript(paste(figdir, "pacf_MA_pos.eps",sep=""), horizontal=FALSE)
+pacf(z.ma)
+dev.off()
+
+postscript(paste(figdir, "acf_MA_pos.eps",sep=""), horizontal=FALSE)
+acf(z.ma)
+dev.off()
+
+## MA(1), negative
+T <- 1000
+theta=0.5
+z.ma <- array(0, T)
+z.ma[1] <- rnorm(1)
+eps.prev <- z.ma[1]
+for(t in 2:T)
+{
+  eps <- rnorm(1)
+  z.ma[t] <- eps - 0.8 * eps.prev
+  eps.prev <- eps
+}
+
+pacf( z.ma )
+
+acf( z.ma )
+
+postscript(paste(figdir, "pacf_MA_neg.eps",sep=""), horizontal=FALSE)
+pacf(z.ma)
+dev.off()
+
+postscript(paste(figdir, "acf_MA_neg.eps",sep=""), horizontal=FALSE)
+acf(z.ma)
+dev.off()
+
+## MA(2), negative
+T <- 1000
+theta=0.5
+z.ma <- array(0, T)
+z.ma[1] <- rnorm(1)
+eps.prev <- z.ma[1]
+eps.prev.two <- rnorm(1)
+for(t in 3:T)
+{
+  eps <- rnorm(1)
+  z.ma[t] <- eps - 0.8 * eps.prev + 0.5 * eps.prev.two
+  eps.prev.two <- eps.prev
+  eps.prev <- eps
+}
+
+pacf( z.ma )
+
+acf( z.ma )
+
+postscript(paste(figdir, "pacf_MA_2.eps",sep=""), horizontal=FALSE)
+pacf(z.ma)
+dev.off()
+
+postscript(paste(figdir, "acf_MA_2.eps",sep=""), horizontal=FALSE)
+acf(z.ma)
+dev.off()
+
 
 ## Difference of Elnino data: monthly El Nino data from 1955 to 1992.
 ## El Nino effect is thought to be a driver of world-wide weather.
@@ -127,18 +190,24 @@ acf( elnino.arima$residuals)
 ## Iowa Nonfarm-Income
 iowa <- read.table("./data/iowa_nonfarm_income.txt")$V1
 rate <- diff(iowa)/iowa[1: (length(iowa)-1)]*100
+plot.ts(rate)
 
 d.rate <- diff(rate)
 plot.ts( d.rate )
 
-arma.diff.iowa <- Arima( d.rate, order=c(0,0,1) )
+arma.diff.iowa <- arima( d.rate, order=c(0,0,1) )
 acf( arma.diff.iowa$residuals )
-
+summary( arma.diff.iowa )
 
 ## Using ARIMA model with difference
-arima.iowa <- Arima( rate, order=c(0,1,1) )
+arima.iowa <- arima( rate, order=c(0,1,1) )
 iowa.forecast <- forecast( arima.iowa, h=20 )
+summary( arima.iowa )
 plot( iowa.forecast )
+
+arma.diff.iowa <- arima( d.rate, order=c(0,0,1), include.mean=0 )
+acf( arma.diff.iowa$residuals )
+summary( arma.diff.iowa )
 
 
 ####
@@ -153,6 +222,7 @@ acf( gas, lag=50 )
 Season.diff <- diff( gas, lag=12 )
 acf( Season.diff, lag=50 )
 
+
 ## We decide to use (0,0,1) (0,1,0)_S
 gas.arima <- arima(gas, order=c(0,0,1), seasonal=list(order=c(0,1,0)) )
 acf( gas.arima$residuals )
@@ -162,11 +232,13 @@ Box.test( gas.arima$residuals, lag=20, type="Ljung-Box" )
 gas.arima.2 <- arima(gas, order=c(0,0,1), seasonal=list(order=c(0,1,1)) )
 Box.test( gas.arima.2$residuals, lag=20, type="Ljung-Box" )
 acf( gas.arima.2$residuals )
+summary( gas.arima.2)
 
 plot( forecast( gas.arima.2, h=20 ))
 
 gas.arima.3 <- arima(gas, order=c(1,0,0), seasonal=list(order=c(2,1,0)) )
 acf( gas.arima.3$residuals )
+summary( gas.arima.3 )
 
 gas.arima.4 <- arima(gas, order=c(0,0,1), seasonal=list(order=c(2,1,0)) )
 acf( gas.arima.4$residuals )
@@ -180,22 +252,20 @@ plot.ts( house )
 
 acf( house, lag=48 )
 Season.diff <- diff( house, lag=12 )
-Season.diff.2 <- diff( Season.diff )
 
 acf( Season.diff, lag=48 )
 pacf( Season.diff, lag=48 )
 
 
-house.arima <- arima(house, order=c(2,0,0), seasonal=list(order=c(1,1,0)) )
+
+house.arima <- arima(house, order=c(1,0,0), seasonal=list(order=c(0,1,1)) )
 acf( house.arima$residuals )
 Box.test( house.arima$residuals, lag=20, type="Ljung-Box" )
 plot( forecast( house.arima, h=25 ) )
+summary( house.arima )
 
-house.arima.2 <- arima(house, order=c(2,0,0), seasonal=list(order=c(4,1,0)) )
-acf( house.arima.2$residuals, lag=50 )
-Box.test( house.arima$residuals, lag=25, type="Ljung-Box" )
-plot( forecast( house.arima, h=20 ) )
 
-house.arima.3 <- arima( house, order=c(0,1,1), seasonal=list( order=c(0,1,1) ))
-acf( house.arima.3$residuals)
-Box.test( house.arima.3$residuals, lag=25, type="Ljung-Box" )
+house.arima.2 <- arima( house, order=c(2,0,0), seasonal=list( order=c(0,1,1) ))
+acf( house.arima.2$residuals)
+Box.test( house.arima.2$residuals, lag=25, type="Ljung-Box" )
+summary( house.arima.2 )
