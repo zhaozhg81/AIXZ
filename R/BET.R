@@ -55,13 +55,16 @@ data.generator <- function(N,scenario,para){
   return(x)
 }
 
+null.dist = BEAST.null.simu(128, 2, 2, p.value.method="s" )
+
 
 N <- 128
-p <- 5
+p <- 20
 
 scen = c("gau","cir","sin","cb","concen","parabolic")
 
-
+                
+                
 id <- 2
 para <- 0.3
   
@@ -69,21 +72,25 @@ X <- array( rnorm(N*p), c(N, p))
 rep.ind <- sample(c(1:p),2)
 
 X[ , rep.ind ] <- data.generator(N,scen[id],para)
+plot(X[,rep.ind[1]], X[,rep.ind[2]])
 
 p.value.BET <- array(0, c(p,p) )
 p.value.pearson <- array(0, c(p,p) )
 
 for(i in 2:p)
+{
   for(j in 1:(i-1))
   {
     p.value.pearson[i,j] <- cor.test( X[,i], X[,j] )$p.value
     p.value.pearson[j,i] <- p.value.pearson[i,j]
 
-    p.value.BET[i,j] <- BEAST( cbind(X[,i],X[,j]), d=2)$p.value
+    temp = BEAST( cbind(X[,i],X[,j]), d=2, p.value.method="n")$BEAST.Statistic
+    
+    p.value.BET[i,j] <- mean( null.dist > temp )
     p.value.BET[j,i] <- p.value.BET[i,j]
-
-    print( paste("i=",i,"; j=",j,sep="") )
   }
+  print( paste("i=",i,sep="") )
+}
 
 diag( p.value.BET) <- 1
 diag( p.value.pearson ) <- 1
