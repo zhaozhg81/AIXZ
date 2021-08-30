@@ -1,3 +1,40 @@
+## Demonstrate bias
+
+sample.size = 50
+numSim = 1000
+prob = 0.3
+
+X1.bar = array(0, numSim)
+
+for( numsim in 1:numSim)
+  {
+    X = rbinom( sample.size, 1, prob)
+    X1.bar[numsim] = mean(X)
+  }
+
+bias1 = mean(X1.bar) - prob
+variance1 = var(X1.bar)
+
+
+
+sample.size = 10000
+numSim = 1000
+prob = 0.3
+
+X2.bar = array(0, numSim)
+
+for( numsim in 1:numSim)
+  {
+    X = rbinom( sample.size, 1, prob)
+    X2.bar[numsim] = mean(X)
+  }
+
+bias2 = mean(X2.bar) - prob
+variance2 = var(X2.bar)
+
+
+
+
 ## Demonstrate consistency
 
 sample.size = c(1:100)*10
