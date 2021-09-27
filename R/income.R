@@ -74,6 +74,38 @@ points( c(q.gamma[1], q.gamma[n]), c(q.gamma[1], q.gamma[n]), 'l', col='red', lw
 
 
 
+## Fit the data using Gaussian Mixture distribution
+em.esti <- EM( log(income), K=2, pi.ini= c(0.5,0.5), mu.ini=c(8,10), sigma.ini=c(1,1), verbose=TRUE )
+
+xaxis <- seq( min(log(income)), max(log(income)), 0.01)
+emp.cdf <- xaxis
+for(i in 1:length( xaxis ) )
+  {
+    emp.cdf[i] <- mean( log(income) <= xaxis[i] )
+  }
+
+
+par(mfrow=c(2,2))
+cdf.fitted.gaussian.mixture =  em.esti$pi.esti[1] * pnorm( xaxis, em.esti$mu.esti[1], em.esti$sigma.esti[1]) + em.esti$pi.esti[2] * pnorm(xaxis, em.esti$mu.esti[2], em.esti$sigma.esti[2])
+plot( xaxis, cdf.fitted.gaussian.mixture, 'l', col='red', xlab="", ylab="", main="CDF, gaussian Mixture, K=2" )
+points( xaxis, emp.cdf, col='green', 'l') 
+
+hist(log(income), breaks=20, freq=FALSE, xlab="", ylab="", main="PDF: Gaussian Mixture, K=2")
+points( xaxis, em.esti$pi.esti[1] * dnorm( xaxis, em.esti$mu.esti[1], em.esti$sigma.esti[1]) + em.esti$pi.esti[2] * dnorm(xaxis, em.esti$mu.esti[2], em.esti$sigma.esti[2]), 'l', col='red' )
+
+cdf.fitted.gaussian = pnorm( xaxis, l.mu, l.sigma)
+plot(xaxis, cdf.fitted.gaussian, 'l', col='red', xlab="", ylab="", main="CDF, Log-Normal")
+points( xaxis, emp.cdf, col='green', 'l') 
+
+hist(log(income), breaks=20, freq=FALSE, xlab="", ylab="", main="PDF: Log-Normal")
+points( xaxis, dnorm(xaxis, l.mu,l.sigma), 'l', col='red' )
+
+
+max( abs( emp.cdf - cdf.fitted.gaussian.mixture ) )
+max( abs( emp.cdf - cdf.fitted.gaussian ) )
+
+
+
 qqnorm(income)
 qqline(income,col='red', lwd=2)
 

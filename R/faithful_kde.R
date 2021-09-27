@@ -1,4 +1,5 @@
 library( kolmim )
+source("./R/func/EM.R")
 
 
 ### KDE and empirical distribution function
@@ -129,7 +130,7 @@ plot( xaxis, emp.cdf, main="Faithful", xlab="X", ylab="cdf", cex.main=2, cex.lab
 ## Gaussian Mixture Model
 em.esti <- EM( X, K=2, pi.ini= c(0.5,0.5), mu.ini=c(-1,1), sigma.ini=c(1,1), verbose=TRUE )
 
-par(mrow=c(1,2))
+par(mfrow=c(1,2))
 plot( xaxis, em.esti$pi.esti[1] * pnorm( xaxis, em.esti$mu.esti[1], em.esti$sigma.esti[1]) + em.esti$pi.esti[2] * pnorm(xaxis, em.esti$mu.esti[2], em.esti$sigma.esti[2]), 'l', col='red' )
 points( xaxis, emp.cdf, col='green', 'l') 
 
