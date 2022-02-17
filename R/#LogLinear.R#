@@ -50,6 +50,7 @@ poll2.loglinear <- glm( count ~ Education + Candidate, family=poisson, data=poll
 
 EduAspiration = read.csv("./data/EducationAspirations.csv")
 
+
 tapply(EduAspiration$Count, list( EduAspiration$Social, EduAspiration$Education), sum)
 tapply(EduAspiration$Count, list( EduAspiration$Social, EduAspiration$Education, EduAspiration$Plan), sum)
 

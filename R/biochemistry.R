@@ -14,7 +14,7 @@ summary( biochem.poi )
 pr <- residuals(biochem.poi,"pearson")
 
 ## Quasi poisson model
-biochem.quasipoi <- glm(art~fem+mar+kid5+phd+ment, family=quasipoisson, data=ab)
+biochem.quasipoi <- glm(art~fem+mar+kid5+phd+ment, family=quasipoisson, data=biochem)
 
 
 se <- function(model) sqrt(diag(vcov(model)))

@@ -1,0 +1,44 @@
+UCBAdmissons
+
+
+
+data <- data.frame( expand.grid( c("Male","Female"), c("A","B","C","D","E", "F" ), c("Admitted","Rejected") ) )
+data <- cbind(data, c(UCBAdmissions[1,,],UCBAdmissions[2,,]) )
+colnames(data) <- c("Gender","Depart","Admit","Count")
+
+## Possible log-linear models to be considered
+UCBA.m1  = glm( Count~  Gender + Depart + Admit, family=poisson, data= data )
+UCBA.m2  = glm( Count~  Gender + Depart * Admit, family=poisson, data= data )
+UCBA.m3  = glm( Count~  Gender * Depart + Admit, family=poisson, data= data )
+UCBA.m4  = glm( Count~  Gender * Admit + Depart, family=poisson, data= data )
+UCBA.m5  = glm( Count~  Gender * Admit + Depart*Admit, family=poisson, data= data )
+UCBA.m6  = glm( Count~  Gender * Admit + Depart*Gender, family=poisson, data= data )
+UCBA.m7  = glm( Count~  Gender * Depart + Depart*Admit, family=poisson, data= data )
+UCBA.m8  = glm( Count~  Gender * Depart + Depart*Admit + Gender * Admit, family=poisson, data= data )
+UCBA.m9  = glm( Count~  Gender * Depart * Admit, family=poisson, data=data) 
+
+
+summary.tabulate = data.frame ( c("G+D+A","G+DA","GD+A","GA+D","GA+DA","GA+GD","GD+DA","GA+DA+GD") )
+colnames(summary.tabulate)=c("Model")
+summary.tabulate$Deviance = c( UCBA.m1$deviance, UCBA.m2$deviance , UCBA.m3$deviance , UCBA.m4$deviance , 
+                               UCBA.m5$deviance , UCBA.m6$deviance , UCBA.m7$deviance , UCBA.m8$deviance  )
+summary.tabulate$df = c( UCBA.m1$df.residual,  UCBA.m2$df.residual,  UCBA.m3$df.residual,  UCBA.m4$df.residual, 
+                         UCBA.m5$df.residual,  UCBA.m6$df.residual,  UCBA.m7$df.residual,  UCBA.m8$df.residual)
+
+
+## Logistic regressino model
+data2 <- data[c(1:12),]
+data2[,3] <- NULL
+
+colnames( data2 ) <- c("Gender","Depart","Yes")
+data2$No <- data[13:24,4]
+
+UCBA.log.m0 = glm( cbind(Yes, No)~1, family=binomial(link="logit"), data=data2)
+UCBA.log.m1 = glm( cbind(Yes, No)~ Gender, family=binomial(link="logit"), data=data2)
+UCBA.log.m2 = glm( cbind(Yes, No)~ Depart, family=binomial(link="logit"), data=data2)
+UCBA.log.m3 = glm( cbind(Yes, No)~ Gender + Depart, family=binomial(link="logit"), data=data2)
+
+summary.tabulate.logit = data.frame ( c("Null","G","D","G+D") )
+colnames(summary.tabulate.logit)=c("Model")
+summary.tabulate.logit$Deviance = c( UCBA.log.m0$deviance, UCBA.log.m1$deviance, UCBA.log.m2$deviance, UCBA.log.m3$deviance)
+summary.tabulate.logit$df = c( UCBA.log.m0$df.residual,   UCBA.log.m1$df.residual,   UCBA.log.m2$df.residual,   UCBA.log.m3$df.residual )
