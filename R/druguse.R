@@ -43,20 +43,12 @@ round(druguse.cor-fitted, 2)
 sum( (druguse.cor-fitted)^2 )
     
 # compare results:
-res5.varimax <- factanal(covmat = druguse.cor, factors=5, n.obs=1634, rotation="varimax")
-res5$loadings
-# note that the first 4 factors do not remain the same
-# there are considerable changes in factors 3 and 4
+res4.varimax <- factanal(covmat = druguse.cor, factors=4, n.obs=1634, rotation="varimax")
+res4$loadings
+GPForth( loadings(res4.varimax), method="quartimax") 
 
-# how could we interpret the factors in the 4-factor model?
 
-# Answer:
-# first factor: high on beer, wine, liquor => soft drug use
-# second factor: high on cocaine, tranquilizers, heroine haluucinogenics=> hard drug use
-# third factor: high on marijuana
-# fourth factor: high on amphetamine
-
-# Note that interpreting the unrotated factor loadings seems harder:
-res5 <- factanal(covmat = druguse.cor, factors=5, n.obs=1634, rotation="none")
+## Note that interpreting the unrotated factor loadings seems harder:
+res5 <- factanal(covmat = druguse.cor, factors=4, n.obs=1634, rotation="none")
 res5$loadings
 

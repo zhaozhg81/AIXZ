@@ -20,13 +20,6 @@ res2
 ## Check the restriction, diagonal
 t(res2$loadings) %*% solve( diag( res2$uniquenesses ) ) %*% res2$loadings
 
-# compare fitted correlation matrix to the true correlation matrix:
-fit1 <- res1$loadings %*% t(res1$loadings) + diag(res1$uniquenesses)
-round(cov(data) - fit1, 5)
-fit2 <- res2$loadings %*% t(res2$loadings) + diag(res2$uniquenesses)
-round(cov(data) - fit2, 5)
-
-
 # compare different rotations:
 res2.none <- factanal(data, factors=2, rotation="none")    # no rotation
 res2.varimax <- factanal(data, factors=2, rotation="varimax") # default
