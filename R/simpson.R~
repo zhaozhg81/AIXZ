@@ -1,0 +1,15 @@
+## Simulation
+## Two age group, 5-10, 50-55
+n1 <- 50
+n2 <- 50
+
+x1 <- sample( c(55:75), n1, replace=TRUE)
+x1 <- x1-mean(x1)
+y1 <- 2 + 0.1*x1 + rnorm(n1)
+
+x2 <- sample(c(70:85), n2, replace=TRUE)
+x2 <- x2-mean(x2)
+
+y2 <- 0.5 + 0.1*x2+rnorm(n2)
+
+plot( cbind(x1,x2), cbind(y1,y2) )
