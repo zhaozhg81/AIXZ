@@ -53,3 +53,13 @@ s = mortdat$Y * (1-mortdat$X) * mortdat$eZ/( e0 * (1-mortdat$eZ))
 
 E.Y0.T1 = sum( s*mortdat$p)
 E.Y0.T1
+
+
+## Exposure modeling
+
+## Estimate P(T=1)
+e0 <- sum( mortdat$X * mortdat$p )
+## Compute the summands of the esimating equation
+s <- mortdat$Y * (1-mortdat$X) * mortdat$eZ / (e0 * (1-mortdat$eZ) )
+## Estimate E(Y0|Y1)
+E.exp.Y0.T1 <- sum( s*mortdat$p)
