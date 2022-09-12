@@ -63,10 +63,11 @@ points(c( l.q.norm[1], l.q.norm[n]), c(l.q.norm[1], l.q.norm[n]), 'l',col='red',
 #######################
 ## Fit the data by using gamma distribution
 ## MLE Estimator
-library(rGammaGamma)
-esti <- gammaMLE(income)
+
+library(univariateML)
+esti <- mlgamma(income)
 alpha.hat <- esti[1]
-beta.hat <- esti[2]
+beta.hat <- 1/esti[2]
 
 q.gamma <- qgamma( (c(1:n)-0.5)/n, shape = alpha.hat, scale = beta.hat, lower.tail= TRUE )
 plot(  q.gamma, income.sort, main="Gamma")
