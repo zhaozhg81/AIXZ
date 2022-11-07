@@ -11,12 +11,23 @@ factor( insulgas$Insulate )
 
 gas.fit <- lm( Gas ~ Insulate + Temp, data=insulgas )
 
+insulgas$dummy_before = (insulgas$Insulate=="Before")*1
+insulgas$dummy_after = (insulgas$Insulate=="After")*1
+
+gas.fit.dummy <- lm( Gas~  dummy_before + Temp, data=insulgas )
+summary(gas.fit)
+summary(gas.fit.dummy)
+
+
 ## If wanting to change the baseline level.
 insulgas2 <- within(insulgas, Insulate <- relevel(Insulate, ref = "Before") )
 gas.fit2 <- lm( Gas ~ Insulate + Temp, data= insulgas2 )
+summary( gas.fit2 )
 
 ## Model without the constant.
+gas.fit.dummy.all <- lm( Gas~  dummy_before + dummy_after + Temp, data=insulgas )
 gas.fit3 <- lm( Gas ~ Insulate + Temp -1, data= insulgas )
+summary( gas.fit3)
 
 summary( gas.fit )
 summary( gas.fit2 )
