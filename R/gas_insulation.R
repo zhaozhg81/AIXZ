@@ -1,13 +1,13 @@
 
 ## Categorical predictor
 insulgas <- read.table("data/insulgas.txt", header=TRUE)
+insulgas$Insulate <- as.factor( insulgas$Insulate )
 
 insulgas
 plot(Gas[Insulate == "Before"] ~ Temp[Insulate == "Before"], xlab = "Outside Temperature", ylab = "Gas Consumption",  data = insulgas)
 points(Gas[Insulate == "After"] ~ Temp[Insulate == "After"], pch = 2, col = 2, data=insulgas)
 legend("topright",legend = c("Before","After"),pch = 1:2, bty="n", col=1:2)
 
-factor( insulgas$Insulate )
 
 gas.fit <- lm( Gas ~ Insulate + Temp, data=insulgas )
 
@@ -42,15 +42,6 @@ anova( full.model.insul )
 
 anova( reduced.model.insul, full.model.insul )
 
-################################################
-################################################
-################################################
-##
-null.model.cheese <- lm( taste ~ 1, data=cheese )
-full.model.cheese <- lm( taste ~ Acetic + H2S + Lactic, data = cheese )
-anova( full.model.cheese )
-
-anova(reduced.model.insul, full.model.insul )
 
 ################################################
 ################################################################################################
@@ -81,4 +72,12 @@ gas.fit.2 <- lm( Gas ~  Temp, data=insulgas )
 ks.test( gas.fit$residuals/sqrt( var(gas.fit$residuals) ), 'pnorm' )
 
 
+## ANCOVA
+ancova_model <- aov(Gas ~Insulate +  Temp, data = insulgas)
+Anova(ancova_model, type="II")
+
+
+## ANCOVA
+ancova_model <- aov(Gas ~Insulate +  Temp + Insulate:Temp, data = insulgas)
+Anova(ancova_model, type="II")
 
