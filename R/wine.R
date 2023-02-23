@@ -1,4 +1,6 @@
 library(fields)
+library(LassoSIR)
+library(Rdimtools)
 
 
 wine <- read.table("./data/wine.data",sep=",")
@@ -55,14 +57,7 @@ text(wine.pca$score[,1],wine.pca$score[,2], wine$V1, cex=0.7, pos=4, col="red") 
 ## dev.off()
 
 
-## LassoSIR
-wine.lasso.sir <- LassoSIR(as.matrix( wine[,2:14],c(178,13)), wine[,1], solution.path = FALSE,
-         categorical = TRUE, nfolds = 10, no.dim=2)
 
-X = as.matrix(wine[,2:14], c(178,13) )
-x.comb = X%*%wine.lasso.sir$beta
-plot(x.comb[,1], x.comb[,2])
-text(x.comb[,1], x.comb[,2], wine$V1, cex=0.7, pos=4, col="red") # add labels
 
 
 #### LDA
@@ -84,3 +79,18 @@ ldahist(data = wine.lda.values$x[,2], g=wine$V1)
 plot(wine.lda.values$x[,1],wine.lda.values$x[,2]) # make a scatterplot
 text(wine.lda.values$x[,1],wine.lda.values$x[,2],wine$V1,cex=0.7,pos=4,col="red") # add labels
 ## dev.off()
+
+
+## SIR
+sir.res = do.sir( as.matrix( wine[,2:14],nrow=178, ncol=13), as.matrix(wine[,1],nrow=178, ncol=1), ndim=2 )
+plot(sir.res$Y[,1], sir.res$Y[,2], ) # make a scatterplot
+text(sir.res$Y[,1], sir.res$Y[,2], wine$V1, cex=0.7, pos=4, col="red") # add labels
+
+## LassoSIR
+wine.lasso.sir <- LassoSIR(as.matrix( wine[,2:14],nrow=178, ncol=13), as.matrix(wine[,1],nrow=178, ncol=1), solution.path = FALSE, 
+                           categorical = TRUE, nfolds = 10, no.dim=2)
+
+X = as.matrix(wine[,2:14], nrow=178, ncol=13 )
+x.comb = X%*%wine.lasso.sir$beta
+plot(x.comb[,1], x.comb[,2])
+text(x.comb[,1], x.comb[,2], wine$V1, cex=0.7, pos=4, col="red") # add labels
