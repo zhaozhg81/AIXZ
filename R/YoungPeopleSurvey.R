@@ -20,11 +20,11 @@ cor.plot(pear_cor, numbers=T, upper=FALSE, main = "Pearson Correlation", show.le
 ## Polychoric correlation
 poly_cor = polychoric(features)
 rho = poly_cor$rho
-save(rho, file = "polychoric")
 ### Thresholds/Scaling results
 poly_cor$tau
 
 cor.plot(poly_cor$rho, numbers=T, upper=FALSE, main = "Polychoric Correlation", show.legend = FALSE)
+
 
 
 load("polychoric")
