@@ -17,6 +17,7 @@ res1
 res2
 
 
+
 ## Check the restriction, diagonal
 t(res2$loadings) %*% solve( diag( res2$uniquenesses ) ) %*% res2$loadings
 
@@ -48,3 +49,9 @@ res2.promax$uniquenesses
 
 res2.t <- factanal(data, factors=2, rotation="varimax", score="regression")   
 plot(res2.t$scores)
+
+## Consider a student with strong math/quantitaive skills
+
+data[151,]
+res2.t$scores[151,]
+res2.t$loadings %*% res2.t$scores[151,]

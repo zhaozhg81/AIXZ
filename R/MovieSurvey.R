@@ -4,12 +4,10 @@
 # dat = dat[-fake,]
 # save(dat, file = "data.RData")
 ## Load data and packages
-load("data/Young_People_Survey.RData")
+load("data/Movie_Survey.RData")
 # data summary
 library(psych)
 des = describe(dat)
-knitr::kable(des[,c("min", "max", "mean", "median", "skew", "kurtosis")], main = "Data Summary")
-
 
 features = dat[1:10]
 ## Pearson Correlation
@@ -26,8 +24,16 @@ poly_cor$tau
 cor.plot(poly_cor$rho, numbers=T, upper=FALSE, main = "Polychoric Correlation", show.legend = FALSE)
 
 
+## Simulation to compare pearson correlation and Polychoric correlation
+library(mvtnorm)
+SIGMA = matrix( 0.8, nrow=5,ncol=5)
+diag(SIGMA) = 1
+X = rmvnorm(100, mean=rep(0,5), sigma= SIGMA )
+Y = (X < -1.5) + (X < -1) + (X < 1) + (X <1.5) + (X<10)
+cor(Y)
+polychoric(Y)$rho
 
-load("polychoric")
+  
 # Scree plot
 fa.parallel(rho, fm="pa", fa="fa", main = "Scree Plot")
 
@@ -35,4 +41,7 @@ fa.parallel(rho, fm="pa", fa="fa", main = "Scree Plot")
 # Polychoric factor analysis
 poly_model = fa(features, nfactor=3, cor="poly", fm="mle", rotate = "none")
 poly_model$loadings
-fa.diagram(poly_model)
+fa.diagram(poly_model, cut=0.5, e.cut=0.5)
+
+
+factanal(covmat=rho, factors=3)
