@@ -39,9 +39,9 @@ fa.parallel(rho, fm="pa", fa="fa", main = "Scree Plot")
 
 
 # Polychoric factor analysis
-poly_model = fa(features, nfactor=3, cor="poly", fm="mle", rotate = "none")
+poly_model = fa(features, nfactor=3, cor="poly", fm="mle", rotate = "varimax")
 poly_model$loadings
 fa.diagram(poly_model, cut=0.5, e.cut=0.5)
 
 
-factanal(covmat=rho, factors=3)
+factanal(covmat=rho, factors=2)

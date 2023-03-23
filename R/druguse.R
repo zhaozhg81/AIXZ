@@ -42,11 +42,16 @@ fitted <- res2$loadings %*% t(res2$loadings) + diag(res2$uniquenesses)
 round(druguse.cor-fitted, 2)
 sum( (druguse.cor-fitted)^2 )
     
+
+fitted6 <- res6$loadings %*% t(res6$loadings) + diag(res6$uniquenesses)
+round(druguse.cor-fitted6, 2)
+sum( (druguse.cor-fitted6)^2 )
+
 # compare results:
 res5.varimax <- factanal(covmat = druguse.cor, factors=5, n.obs=1634, rotation="varimax")
 res5.varimax$loadings
 GPForth( loadings(res5.varimax), method="quartimax") 
-
+·
 
 ## Note that interpreting the unrotated factor loadings seems harder:
 res5.none <- factanal(covmat = druguse.cor, factors=5, n.obs=1634, rotation="none")
