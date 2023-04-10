@@ -24,7 +24,10 @@ points( c(1:length(index$V1)), lc$fitted, col='green', 'l')
 
 data(oil)
 oildata <- oil
-plot(oildata, ylab="Oil (millions of tonnes)",xlab="Year")
+lc.oil <- local.constant(oildata)
+
+plot(c(1:length(oil)), oildata, ylab="Oil (millions of tonnes)",xlab="Year",'l')
+points( c(1:length(oil)), lc.oil$fitted, col='green', 'l')
 
 
 ## Oil
@@ -109,30 +112,21 @@ postscript(paste(figdir, "acf_MA_pos.eps",sep=""), horizontal=FALSE)
 acf(z.ma)
 dev.off()
 
-## MA(1), negative
+
+## AR(1)
+
 T <- 1000
 theta=0.5
 z.ma <- array(0, T)
 z.ma[1] <- rnorm(1)
-eps.prev <- z.ma[1]
 for(t in 2:T)
 {
-  eps <- rnorm(1)
-  z.ma[t] <- eps - 0.8 * eps.prev
-  eps.prev <- eps
+  z.ma[t] <- 0.8*z.ma[t-1] + rnorm(1)
 }
 
 pacf( z.ma )
 
 acf( z.ma )
-
-postscript(paste(figdir, "pacf_MA_neg.eps",sep=""), horizontal=FALSE)
-pacf(z.ma)
-dev.off()
-
-postscript(paste(figdir, "acf_MA_neg.eps",sep=""), horizontal=FALSE)
-acf(z.ma)
-dev.off()
 
 ## MA(2), negative
 T <- 1000
