@@ -14,7 +14,7 @@ inits <- function(){
                    }
 parameters <- c("theta", "prec.y", "prec.theta")
 
-baseball.gibbs <- bugs( data, inits, parameters, "baseball.txt", n.iter=50000, n.burnin=10000, n.thin=40 )
+baseball.gibbs <- bugs( data, inits, parameters, "/home/zhaozhg/Dropbox/programming/github/AIXZ/R/baseball.txt", n.iter=50000, n.burnin=10000, n.thin=40 )
 
 ## load("baseball_output.Rdata")
 

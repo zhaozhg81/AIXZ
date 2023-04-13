@@ -7,6 +7,7 @@ pacman::p_load(lme4)
 pacman::p_load(MASS)
 
 library(nlme)
+library(lme4)
 
 Sodium <- c(24.4,22.6,23.8,22.0,24.5,22.3,25.0,24.5,
     10.2,12.1,10.3,10.2,9.9,11.2,12.0,9.5,
