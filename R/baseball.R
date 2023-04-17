@@ -14,7 +14,9 @@ inits <- function(){
                    }
 parameters <- c("theta", "prec.y", "prec.theta")
 
-baseball.gibbs <- bugs( data, inits, parameters, "/home/zhaozhg/Dropbox/programming/github/AIXZ/R/baseball.txt", n.iter=50000, n.burnin=10000, n.thin=40 )
+baseball.gibbs <- bugs( data, inits, parameters,
+                        "/home/zhaozhg/Dropbox/programming/github/AIXZ/R/baseball.txt", 
+                        n.iter=50000, n.burnin=10000, n.thin=40 )
 
 ## load("baseball_output.Rdata")
 
@@ -37,7 +39,7 @@ yPred= baseball.summary$quantiles[ c(4,14:21,5:13),2]
 Season.Ave=baseball[,10]
 sum( (yPred - Season.Ave)^2 )
 sum( (y -Season.Ave)^2 )
-
+sum( ( mean(y) - Season.Ave)^2 )
 
 ## postscript("../figure/prediction.eps",horizontal=FALSE)
 plot(c(1:18), y, xlab="Players", ylab="Prediction")
