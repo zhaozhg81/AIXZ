@@ -1,21 +1,5 @@
 
 
-income.all <- read.csv("kaggle_income.csv")
-dim(income.all)
-head(income.all)
-
-hist(income.all$Median)
-
-income <- income.all$Median[ (income.all$Median >0 ) &( income.all$Median < 300000)  ]
-
-
-Y <- log( income )
-mu.hat <- mean(Y)
-sigma.hat <- sqrt( var( Y ) )
-
-mean.est <- exp( mu.hat + sigma.hat^2/2 )
-
-
 numSim <- 5000
 n <- 100
 
@@ -79,7 +63,4 @@ for( i in 1:length(alphas) )
 plot( alphas, risk.all[1, ], col='red','l')
 points( alphas, risk.all[2,], col='green','l')
 legend(x=2, y= 30, c("Without Log", "Log"), col=c("red","green"), lty=c(1,1) )
-
-
-plot( xaxis, emp.cdf, main="Faithful", xlab="X", ylab="cdf", cex.main=2, cex.lab=1.5,'l', lwd=3, col='red' )
 
