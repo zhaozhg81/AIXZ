@@ -20,7 +20,3 @@ ks.test( residuals(fm1)/ sqrt( var( residuals(fm1) ) ), 'pnorm' )
 ## ANOVA table
 aov.fm1 <- aov( Evaluation ~ Error( Officer ), data=apex )
 summary( aov.fm1 )
-F.stat <- (73.2 + 4*396.7)/73.2
-p.value <- 1- pf( F.stat, 4, 15 )
-
-ICC = 8.99375^2/(8.99375^2+73.2)

@@ -1,5 +1,13 @@
+if (!requireNamespace("pacman")){
+  install.packages("pacman")
+}
+pacman::p_load(sjstats)
+pacman::p_load(sjPlot)
+pacman::p_load(lme4)
+pacman::p_load(MASS)
 
 library(nlme)
+library(lme4)
 
 Sodium <- c(24.4,22.6,23.8,22.0,24.5,22.3,25.0,24.5,
     10.2,12.1,10.3,10.2,9.9,11.2,12.0,9.5,
@@ -28,8 +36,9 @@ ks.test( residuals(fm3)/ sqrt( var( residuals(fm3) ) ), 'pnorm' )
 aov.fm3 <- aov( Sodium ~ Error( Brand ), data=beer )
 summary( aov.fm3 )
 
-F.stat <- (0.716+8*170.9)/0.716
+F.stat <- 170.9/0.716
 
 p.value <- 1- pf( F.stat, 5, 42 )
 
-ICC = 4.612346^2/( 4.612346^2+0.716)
+sjPlot::tab_model( fm3 )
+

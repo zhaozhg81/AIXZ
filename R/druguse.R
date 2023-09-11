@@ -30,7 +30,7 @@ image.plot(x=c(1:13), y=c(1:13), z=druguse.cor, zlim=c(-0.5, 0.62), col=tim.colo
 row.names(druguse.cor)
 
 # fit factor models with 2, 5, 6 factors:
-res2 <- factanal(covmat = druguse.cor, factors=2, n.obs=1634)
+res2 <- factanal(covmat = druguse.cor, factors=2, n.obs=1634,rotation="promax")
 res2
 res5 <- factanal(covmat = druguse.cor, factors=5, n.obs=1634)
 res5
@@ -42,13 +42,19 @@ fitted <- res2$loadings %*% t(res2$loadings) + diag(res2$uniquenesses)
 round(druguse.cor-fitted, 2)
 sum( (druguse.cor-fitted)^2 )
     
-# compare results:
-res4.varimax <- factanal(covmat = druguse.cor, factors=4, n.obs=1634, rotation="varimax")
-res4$loadings
-GPForth( loadings(res4.varimax), method="quartimax") 
 
+fitted6 <- res6$loadings %*% t(res6$loadings) + diag(res6$uniquenesses)
+round(druguse.cor-fitted6, 2)
+sum( (druguse.cor-fitted6)^2 )
+
+# compare results:
+res5.varimax <- factanal(covmat = druguse.cor, factors=5, n.obs=1634, rotation="varimax")
+res5.varimax$loadings
+GPForth( loadings(res5.varimax), method="quartimax") 
+·
 
 ## Note that interpreting the unrotated factor loadings seems harder:
-res5 <- factanal(covmat = druguse.cor, factors=4, n.obs=1634, rotation="none")
-res5$loadings
+res5.none <- factanal(covmat = druguse.cor, factors=5, n.obs=1634, rotation="none")
+res5.none$loadings
 
+res5$loadings
