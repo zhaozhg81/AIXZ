@@ -77,6 +77,10 @@ legend(x=1, y=0.3, col=c("red","green"), c("Control","Treatment"), lty=c(1,1), l
 ks.test( X3.control, 'pnorm', mean(X3.control), sqrt(var(X3.control)) )
 ks.test( X3.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
 
+shapiro.test(X3.control)
+shapiro.test(X3.treat)
+
+ks.test(X3.control, X3.treat)
 
 ## Consider gene 6032
 X6032.control <- X[6032,][Y==1]
@@ -86,9 +90,8 @@ den.treat.1 <- density(X6032.treat )
 plot( den.control.1$x, den.control.1$y, 'l', main="Density under two conditions", xlab="expression", ylab="density", cex.main=2, cex.lab=1.5, col='red',lwd=3 )
 points( den.treat.1$x, den.treat.1$y, 'l',  col='green', lwd=3 )
 legend(x=0, y=0.8, col=c("red","green"), c("Control","Treatment"), lty=c(1,1), lwd=c(3,3), cex=1 )
-ks.test( X6032.control, 'pnorm', mean(X3.control), sqrt(var(X3.control)) )
-ks.test( X6032.treat, 'pnorm', mean(X3.treat), sqrt(var(X3.treat))  )
+ks.test( X6032.control, 'pnorm', mean(X6032.control), sqrt(var(X6032.control)) )
+ks.test( X6032.treat, 'pnorm', mean(X6032.treat), sqrt(var(X6032.treat))  )
 
 ks.test( X6032.control, X6032.treat)
-ks.test(X3.control, X3.treat)
 
