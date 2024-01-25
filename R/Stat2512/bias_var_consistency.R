@@ -23,9 +23,9 @@ var( sample_mean_partial )
 
 
 ## Consistency
-ns = 100*c(1:30)
+ns = c(2:40)^2
 sample_mean_all = array(0, c(length(ns), num_rep_sampling) )
-for( i in 1:30)
+for( i in 1:length(ns))
   {
     X = array( rnorm( ns[i]*num_rep_sampling, mu, 1), c( ns[i], num_rep_sampling) )
     sample_mean_all[i,] = apply(X, 2, mean)
@@ -33,3 +33,8 @@ for( i in 1:30)
 }
 
 apply( abs( sample_mean_all - mu ) > 0.05, 1, mean) 
+
+plot(ns, sample_mean_all[,1], 'l', ylim=c(0.6,1.4))
+for(i in 2:100)
+  points(ns, sample_mean_all[,i], 'l')
+points(ns, array(mu, length(ns)), 'l', col='red', lwd=5)
