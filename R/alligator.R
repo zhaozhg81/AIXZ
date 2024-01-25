@@ -41,6 +41,4 @@ prob <- predict( multi.model, type="response" )
 colnames( prob ) <- c("1", "2", "3", "4", "5")
 pred.prob <- data.frame( prob=prob, size=sizegroup, gender=gender, lake=lake)
 
-library(tidyr)
-pred.prob <- pred.prob%>% spread(variable,value)
-
+pred.prob

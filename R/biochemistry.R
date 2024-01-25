@@ -1,10 +1,11 @@
 library(MASS)
 library(pscl)
+library(lmtest)
 
 
 biochem <- read.csv("./data/biochemist.csv")
 
-names(ab)
+head(biochem)
 
 ## Poisson model
 
@@ -74,5 +75,3 @@ mu <- predict(biochem.zip,type="count") # μ
 
 zip <- pr + (1-pr)*exp(-mu) # also predict(mzip,type="prob")[,1]
 mean(zip)
-
-vuong( biochem.zip, biochem.poi )

@@ -30,9 +30,6 @@ m2 <- update( attend.nb, .~. - prog )
 anova(attend.nb, m2 )
 
 
-## Can we compare two models poisson vs negative binomial? Yes.
-lrtest( attend.pois, attend.nb )
-
 
 ## prediction
 newdata1 <- data.frame(  math = rep(seq(from = min(dat$math), to = max(dat$math), length.out = 100), 3),  prog = factor(rep(1:3, each = 100), levels = 1:3, labels =  levels(dat$prog)))
