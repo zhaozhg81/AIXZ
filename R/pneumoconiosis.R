@@ -6,7 +6,7 @@ attach(pneumo.df)
 
 lodds <- function(x,y){log((x+.5)/(y+.5))}
 
-multi.model <- vglm( cbind(normal,mild,severe)~ log(time), data=pneumo.df, fam=multinomial(parallel=TRUE~time-1) )
+multi.model <- vglm( cbind(normal,mild,severe)~ time, data=pneumo.df, fam=multinomial(parallel=TRUE~ time-1) )
 
 plot( time, lodds(normal,severe))
 plot( time, lodds(mild,severe) )
@@ -17,7 +17,7 @@ plot( log(time), lodds(normal,severe))
 plot( log(time), lodds(mild,severe) )
 
 
-multi.model <- vglm( cbind(normal,mild,severe)~ log(time), data=pneumo.df, fam=multinomial(parallel=TRUE~time-1) )
+multi.model <- vglm( cbind(normal,mild,severe)~ log(time), data=pneumo.df, fam=multinomial(parallel=TRUE~log(time)-1) )
 
 ## Fitted
 base.fit.value <- fitted( multi.model )
@@ -29,6 +29,9 @@ cbind(pnewmo.base.normal,pnewmo.base.mild,pnewmo.base.severe)
 
 plot( log(time), lodds( normal, severe), xlab="", ylab="Base Logit")
 points( log(time), log( pnewmo.base.normal/pnewmo.base.severe), 'l', col='red' )
+
+plot( log(time), lodds( mild, severe), xlab="", ylab="Base Logit")
+points( log(time), log( pnewmo.base.mild/pnewmo.base.severe), 'l', col='red' )
 
 ## Check the graph
 
@@ -48,8 +51,8 @@ fit.value <- fitted( clm.fit )
 gamma.normal <- fit.value[,1]
 gamma.mild <- fit.value[,1] + fit.value[,2]
 gamma.severe <- fit.value[,1] + fit.value[,2] + fit.value[,3]
-plot(pneumo.df[,1], log( gamma.normal/(1-gamma.normal)),'l',col='red')
-points(pneumo.df[,1], log( gamma.mild/(1-gamma.mild)),'l',col='green')
+plot(log(pneumo.df[,1]), log( gamma.normal/(1-gamma.normal)),'l',col='red')
+points(log(pneumo.df[,1]), log( gamma.mild/(1-gamma.mild)),'l',col='green')
 
 ## Fitted 
 pnewmo.po.normal <- fit.value[,1]
@@ -122,6 +125,6 @@ legend( x=2.0, y=0.6, c("normal","mild","severe"), col=c("green","blue","red"), 
 
 ## dev.off()
 
-## likelihood ratio test
+## likelihood ratio testß
 m0 <-  vglm( cbind( normal, mild, severe)~1, family=cratio(parallel=TRUE), data=pneumo.df)
 lrtest( m0, crm.fit )

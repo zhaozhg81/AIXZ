@@ -21,14 +21,14 @@ lrt.test1 = 2 * sum( poll1.ori[1:2,1:2] * log( poll1.ori[1:2,1:2]/mu.hat1) )
   
 
 poll1 <- data.frame( expand.grid( c("Men","Women"),c("Gore","Bush") ) ) 
-colnames(poll1)=c("Gender","Candidate")
+colnames(poll1)=c("Gender","Candidate")ß
 poll1$count <- c( unlist(   poll1.ori[1:2,1:2] ) )
 
 poll1.loglinear <- glm( count ~ Gender + Candidate, family=poisson, data=poll1 )
 
 
 ##
-poll2.ori <- read.table( "data/ExitPoll2.txt", header=TRUE )
+poll2.ori <- read.table( "daßta/ExitPoll2.txt", header=TRUE )
 poll2.total = sum( poll2.ori[1:5,1:2] )
 poll2.test <- chisq.test( poll2.ori[1:5,1:2], correct=FALSE )
 
@@ -55,13 +55,26 @@ tapply(EduAspiration$Count, list( EduAspiration$Social, EduAspiration$Education,
 
 ## Possible log-linear models to be considered
 Edu.m1  = glm( Count~  Social + Education + Plan, family=poisson, data=EduAspiration) 
+
 Edu.m2  = glm( Count~  Social * Education + Plan, family=poisson, data=EduAspiration) 
+
 Edu.m3  = glm( Count~  Social * Plan + Education, family=poisson, data=EduAspiration) 
+
 Edu.m4  = glm( Count~  Social + Education * Plan, family=poisson, data=EduAspiration) 
+anova(Edu.m1,Edu.m4)
+
 Edu.m5  = glm( Count~  Social * Education + Social * Plan, family=poisson, data=EduAspiration) 
+
 Edu.m6  = glm( Count~  Social * Education + Education * Plan, family=poisson, data=EduAspiration) 
+
 Edu.m7  = glm( Count~  Social * Plan + Education * Plan, family=poisson, data=EduAspiration) 
+
+anova(Edu.m4, Edu.m7)
+
 Edu.m8  = glm( Count~  Social * Education + Social * Plan + Education * Plan, family=poisson, data=EduAspiration) 
+
+anova(Edu.m7, Edu.m8 )
+
 Edu.m9  = glm( Count~  Social * Education * Plan, family=poisson, data=EduAspiration) 
 
 
