@@ -55,28 +55,14 @@ tapply(EduAspiration$Count, list( EduAspiration$Social, EduAspiration$Education,
 
 ## Possible log-linear models to be considered
 Edu.m1  = glm( Count~  Social + Education + Plan, family=poisson, data=EduAspiration) 
-
 Edu.m2  = glm( Count~  Social * Education + Plan, family=poisson, data=EduAspiration) 
-
 Edu.m3  = glm( Count~  Social * Plan + Education, family=poisson, data=EduAspiration) 
-
 Edu.m4  = glm( Count~  Social + Education * Plan, family=poisson, data=EduAspiration) 
-anova(Edu.m1,Edu.m4)
-
 Edu.m5  = glm( Count~  Social * Education + Social * Plan, family=poisson, data=EduAspiration) 
-
 Edu.m6  = glm( Count~  Social * Education + Education * Plan, family=poisson, data=EduAspiration) 
-
 Edu.m7  = glm( Count~  Social * Plan + Education * Plan, family=poisson, data=EduAspiration) 
-
-anova(Edu.m4, Edu.m7)
-
 Edu.m8  = glm( Count~  Social * Education + Social * Plan + Education * Plan, family=poisson, data=EduAspiration) 
-
-anova(Edu.m7, Edu.m8 )
-
 Edu.m9  = glm( Count~  Social * Education * Plan, family=poisson, data=EduAspiration) 
-
 
 summary.tabulate = data.frame ( c("S+E+P","SE+P","SP+E","S+EP","SE+SP","SE+EP","SP+EP","SE+SP+EP") )
 colnames(summary.tabulate)=c("Model")
@@ -95,6 +81,7 @@ Edu.log.m0 = glm( cbind(Yes, No)~1, family=binomial(link="logit"), data=EduAspir
 Edu.log.m1 = glm( cbind(Yes, No)~Social, family=binomial(link="logit"), data=EduAspiration2)
 Edu.log.m2 = glm( cbind(Yes, No)~ Education, family=binomial(link="logit"), data=EduAspiration2)
 Edu.log.m3 = glm( cbind(Yes, No)~ Social + Education, family=binomial(link="logit"), data=EduAspiration2)
+Edu.log.m4 = glm( cbind(Yes, No)~ Social * Education, family=binomial(link="logit"), data=EduAspiration2)
 
 summary.tabulate.logit = data.frame ( c("Null","S","E","S+E") )
 colnames(summary.tabulate.logit)=c("Model")
