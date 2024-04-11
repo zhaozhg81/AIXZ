@@ -234,6 +234,8 @@ gas.arima.3 <- arima(gas, order=c(1,0,0), seasonal=list(order=c(2,1,0)) )
 acf( gas.arima.3$residuals )
 summary( gas.arima.3 )
 
+plot( forecast(gas.arima.3,h=24))
+
 gas.arima.4 <- arima(gas, order=c(0,0,1), seasonal=list(order=c(2,1,0)) )
 acf( gas.arima.4$residuals )
 
@@ -250,16 +252,19 @@ Season.diff <- diff( house, lag=12 )
 acf( Season.diff, lag=48 )
 pacf( Season.diff, lag=48 )
 
+acf(diff(Season.diff), lag=48)
+pacf(diff(Season.diff), lag=48)
 
 
-house.arima <- arima(house, order=c(1,0,0), seasonal=list(order=c(0,1,1)) )
+house.arima <- arima(house, order=c(0,1,1), seasonal=list(order=c(0,1,1)) )
 acf( house.arima$residuals )
 Box.test( house.arima$residuals, lag=20, type="Ljung-Box" )
 plot( forecast( house.arima, h=25 ) )
 summary( house.arima )
+plot( forecast(house.arima, h=20 ) )
 
-
-house.arima.2 <- arima( house, order=c(2,0,0), seasonal=list( order=c(0,1,1) ))
+house.arima.2 <- arima( house, order=c(1,1,0), seasonal=list( order=c(1,1,0) ))
 acf( house.arima.2$residuals)
 Box.test( house.arima.2$residuals, lag=25, type="Ljung-Box" )
 summary( house.arima.2 )
+plot( forecast(house.arima.2, h=20 ) )

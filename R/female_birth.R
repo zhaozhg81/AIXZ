@@ -51,7 +51,7 @@ median( log( theta.post/(1-theta.post) ) )
 quantile( log( theta.post/(1-theta.post) ), c(0.025, 0.975) )
 
 ## Test if the true proportion of female births in the population of placenta previa births is lessthan 0.45.
-post.prob <- mean( (theta.post)< 0.45 )
+post.prob <- mean( (theta.post)< 0.485 )
 
 ## True estimator
 mean( log( theta.post/(1-theta.post) ) )
