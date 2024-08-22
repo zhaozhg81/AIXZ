@@ -1,0 +1,11 @@
+model{
+  for (i in 1:N) {
+     Y[i] ~ dnorm(mu[i],tau);
+      mu[i] <- beta0 + beta[1]*x[i,1]+beta[2]*x[i,2]+beta[3]*x[i,3];
+  }
+  beta0 ~  dnorm(0,.00001);
+  for (j in 1:p) {
+       beta[j] ~ dnorm(0,.00001); # coeffs independent
+  }
+  tau ~ dgamma(1.0E-3,1.0E-3);
+}
