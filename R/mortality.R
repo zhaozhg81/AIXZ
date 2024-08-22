@@ -6,14 +6,19 @@ prob.Z0 = ( mortality[1,4]+mortality[4,4])/(( mortality[1,4]+ mortality[2,4]+mor
 prob.Z1 = 1 - prob.Z0
 
 ## Estimator of the causal effect
-E.Y0 = mortality[4,5] * prob.Z0 + mortality[5,5] * prob.Z1
-E.Y1 = mortality[1,5] * prob.Z0 + mortality[2,5] * prob.Z1
+E.Y0 = mortality[1,5] * prob.Z0 + mortality[2,5] * prob.Z1
+E.Y1 = mortality[4,5] * prob.Z0 + mortality[5,5] * prob.Z1
 
 ## ATT 
-prob.Z1.X1 = mortality[2,4]/(mortality[1,4]+mortality[2,4])
-prob.Z0.X1 = mortality[1,4]/( mortality[1,4]+ mortality[2,4]) 
+prob.Z1.X1 = mortality[5,4]/(mortality[5,4]+mortality[4,4])
+prob.Z0.X1 = mortality[4,4]/(mortality[5,4]+ mortality[4,4]) 
 
-E.Y0.X1 = mortality[4,5] * prob.Z0.X1 + mortality[5,5] * prob.Z1.X1
+prob.Z1.X0 = mortality[2,4]/(mortality[2,4]+mortality[1,4])
+prob.Z0.X0 = mortality[1,4]/(mortality[2,4]+ mortality[1,4]) 
+E.Y1.X0 = mortality[4,5]* prob.Z0.X0 + mortality[5,5] * prob.Z1.X0
+
+
+E.Y0.X1 = mortality[1,5] * prob.Z0.X1 + mortality[2,5] * prob.Z1.X1
 
 ## Exposure mode
 
