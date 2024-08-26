@@ -1,7 +1,7 @@
 library(scatterplot3d) # This library will allow us to draw 3d plot
 
 
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/height.txt",header=T)
+mydata=read.table("data/3502/height.txt",header=T)
 # change the directory to your own
 
 str(mydata)

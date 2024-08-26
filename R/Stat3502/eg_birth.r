@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/birthsmokers.txt",header=T)
+mydata=read.table("data/3502/birthsmokers.txt",header=T)
 # change the directory to your own
 str(mydata)
 
