@@ -1,4 +1,4 @@
-mydata=read.csv("C:/Users/dongy/Desktop/linear regression/shelf_stocking.csv",header=T)
+mydata=read.csv("./data/3502/shelf_stocking.csv",header=T)
 
 str(mydata)
 
