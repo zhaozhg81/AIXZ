@@ -8,8 +8,12 @@ x2=mydata$Height
 x3=mydata$Weight
 
 out=lm(y~x1+x2+x3)
+confint(out, level=0.95)
 
 summary(out)
+
+## R-squred, adjusted R-square
+summary(lm(y~x1+x2))
 
 2*(1-pt(1.768,df=34))
 
