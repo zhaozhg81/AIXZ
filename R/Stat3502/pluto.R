@@ -10,3 +10,7 @@ abline(pluto.lm, col='red')
 
 plot( pluto.lm$fitted.values, pluto.lm$residuals)
 abline(0,0, col='red')
+
+hist( pluto.lm$residuals )
+qqnorm(pluto.lm$residuals)
+qqline(pluto.lm$residuals, col='red')

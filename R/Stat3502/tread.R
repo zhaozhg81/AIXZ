@@ -10,3 +10,6 @@ summary( tread.lm)
 
 plot(tread.lm$fitted.values, tread.lm$residuals)
 abline(0,0,col='red')
+
+qqnorm(tread.lm$residuals)
+qqline(tread.lm$residuals, col='red')

@@ -11,3 +11,10 @@ abline(0,0, col='red')
 
 plot( alcoholarm$alcohol, alcohol.lm$residuals)
 abline(0,0, col='red')
+
+
+
+hist(alcohol.lm$residuals )
+
+qqnorm(alcohol.lm$residuals)
+qqline(alcohol.lm$residuals, col='red')
