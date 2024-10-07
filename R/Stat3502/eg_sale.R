@@ -7,14 +7,19 @@
 ## (like seasonality or trends in customer behavior).
 
 sales = read.csv("data/3502/sales.csv")
-# Load necessary libraries
-library(ggplot2)
+
 
 # Fit a simple linear regression model
 model <- lm(Sales ~ Promotional_Emails, data = sales)
+
+qqnorm( model$residuals )
+ks.test(model$residuals/sd(model$residuals), 'pnorm')
+shapiro.test( model$residuals )
 
 plot(sales$Promotional_Emails, sales$Sales,pch=16, col='blue' )
 abline(model, col='red', lwd=2)
 
 plot(c(1:100), model$residuals, pch=16, col='blue')
 abline(0,0, col='black', lwd=2)
+
+acf( model$residuals )
