@@ -1,0 +1,12 @@
+Mammal	Birthwgt	Gestation
+Goat	2.75	155
+Sheep	4	175
+Deer	0.48	190
+Porcupine	1.5	210
+Bear	0.37	213
+Hippo	50	243
+Horse	30	340
+Camel	40	380
+Zebra	40	390
+Giraffe	98	457
+Elephant	113	670

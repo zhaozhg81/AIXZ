@@ -1,16 +1,12 @@
-mydata=read.table("data/3502/shortleaf.txt",header=T)
+mydata=read.table("C:/Users/dongy/Desktop/linear regression/shortleaf.txt",header=T)
 # change the directory to your own
 
 str(mydata)
 y=mydata$Vol
 x=mydata$Diam
 
-plot(x, y)
-
 newy=log(y)
 newx=log(x)
-
-plot(log(x), log(y))
 
 myfit1=lm(y~x)
 myfit2=lm(newy~newx)
