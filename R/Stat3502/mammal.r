@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/mammal.txt",header=T)
+mydata=read.table("data/3502/mammal.txt",header=T)
 
 x=mydata$Birthwgt
 y=mydata$Gestation

@@ -19,5 +19,9 @@ abline( word.tran.lm, col='red', lwd=2)
 plot(word.tran.lm$fitted.values, word.tran.lm$residuals)
 abline(0,0,col='black')
 
+qqnorm( word.tran.lm$residuals)
+qqline(word.tran.lm$residuals, col = "red", lwd = 2)
+
+
 ks.test(word.tran.lm$residuals/sd(word.tran.lm$residuals), 'pnorm')
 shapiro.test(word.tran.lm$residuals)
