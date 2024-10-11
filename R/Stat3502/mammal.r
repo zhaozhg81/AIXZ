@@ -60,3 +60,12 @@ bartlett.test(new_res,g=c(rep(1,5),rep(2,6)))
 # p-value is 0.3099, insignificant
 
 # equal variance assumption no longer violated 
+
+datanew=data.frame(x=50)
+predict( out1, newdata=datanew, interval='predict') 
+
+exp( predict( out1, newdata=datanew, interval='predict') )
+
+predict( out1, newdata=datanew, interval='confidence')
+
+exp( predict( out1, newdata=datanew, interval='confidence') )
