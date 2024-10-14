@@ -14,7 +14,19 @@ plot(newx, newy )
 
 
 myfit1=lm(y~x)
+
+myfit.tmp1= lm(y~log(x))
+summary(myfit.tmp1)
+plot( myfit.tmp1$fitted.values, myfit.tmp1$residuals)
+
+myfit.tmp2= lm(log(y)~x)
+summary(myfit.tmp2)
+plot( myfit.tmp2$fitted.values, myfit.tmp2$residuals)
+
+
+
 myfit2=lm(newy~newx)
+plot(myfit2$fitted.values, myfit2$residuals)
 
 ab1=myfit1$coefficients
 ab2=myfit2$coefficients
