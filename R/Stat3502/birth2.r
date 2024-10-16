@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/birthsmokers.txt",header=T)
+mydata=read.table("data/3502/birthsmokers.txt",header=T)
 
 #####################################################################
 # compare confidence intervals from joint model v.s. seperate models
@@ -7,13 +7,14 @@ y=mydata$Wgt
 
 x1=mydata$Gest
 
-x2=as.numeric(mydata$Smoke)-1
+x2= (mydata$Smoke=="yes")
+
 
 data1=data.frame(y=y,x1=x1,x2=x2)
 
 out=lm(y~., data=data1)
 
-new_obs = data.frame(x1=38,x2=0)
+new_obs = data.frame(x1=38,x2=FALSE)
 
 predict(out,new_obs, interval = "confidence")
 
@@ -24,7 +25,7 @@ predict(out,new_obs, interval = "confidence")
 # from non-smoking mothers with 38 week gestation is
 # (2989.12 ,  3107.355)
 
-new_obs = data.frame(x1=38,x2=1)
+new_obs = data.frame(x1=38,x2=TRUE)
 
 predict(out,new_obs, interval = "confidence")
 

@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/birthsmokers.txt",header=T)
+mydata=read.table("data/3502/birthsmokers.txt",header=T)
 
 #####################################################################
 # do we need two indicator variables for smoking status?
@@ -7,13 +7,15 @@ y=mydata$Wgt
 
 x1=mydata$Gest
 
-x2=as.numeric(mydata$Smoke)-1
+x2= (mydata$Smoke=="yes")
+
 
 head(x2)
 
 # check that smoking is coded as x2=1 and non-smoking is coded as x2=0
 
-x3=2-as.numeric(mydata$Smoke)
+x3= (mydata$Smoke=="no")
+
 
 head(x3)
 
@@ -32,7 +34,8 @@ y=mydata$Wgt
 
 x1=mydata$Gest
 
-x4=2*(as.numeric(mydata$Smoke)-1.5)
+x4= 2*(mydata$Smoke=="yes")-1
+
 
 head(x4)
 

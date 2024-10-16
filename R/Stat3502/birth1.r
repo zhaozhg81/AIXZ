@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/birthsmokers.txt",header=T)
+mydata=read.table("data/3502/birthsmokers.txt",header=T)
 
 head(mydata)
 
@@ -12,7 +12,7 @@ y=mydata$Wgt
 
 x1=mydata$Gest
 
-x2=as.numeric(mydata$Smoke)-1
+x2= (mydata$Smoke=="yes")
 
 head(x2)
 
@@ -65,3 +65,7 @@ legend("topleft", inset=.05, pch=c(1,1),lty=c(1,1),
 
 
 # plot with fitted regression lines
+
+mydata$Smoke = as.factor( mydata$Smoke )
+lm.fit = lm( Wgt~ Gest + Smoke, data=mydata)
+lm.fit2 = lm( Wgt~Gest + relevel(Smoke, ref="yes"), data=mydata)

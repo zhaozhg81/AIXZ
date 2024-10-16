@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/depression.txt",header=T)
+mydata=read.table("data/3502/depression.txt",header=T)
 
 head(mydata)
 
@@ -27,6 +27,9 @@ points(x1[ind3],y[ind3],col="blue")
 
 legend("bottomright", inset=.05, pch=c(1,1,1),
        c("A","B","C"),  col=c("red", "blue","black"))
+
+
+
 
 ###########################################################
 
@@ -72,4 +75,10 @@ abline(a=beta_hat[1]+beta_hat[4],b=beta_hat[2]+beta_hat[6],col="blue")
 legend("bottomright", inset=.05, pch=c(1,1,1),lty=c(1,1,1),
        c("A","B","C"),  col=c("red", "blue","black"))
 
+mydata = within( mydata, TRT <- relevel(TRT, ref="C") )
 
+
+mydata$TRT = as.factor(mydata$TRT)
+lm.fit = lm(y~age + relevel( TRT, ref="C"), data=mydata)
+
+lm.fit2 = lm(y~age * relevel(TRT, ref="C"), data=mydata)
