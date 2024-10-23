@@ -78,3 +78,5 @@ abline(a=beta_hat[1]+beta_hat[3],b=beta_hat[2]+beta_hat[4],col="red")
 
 legend("top", inset=.05, pch=c(1,1),lty=c(1,1),
        c("x2=0","x2=1"), col=c("blue","red"),cex=.5)
+
+out_int.2=lm(y~x1*x2)
