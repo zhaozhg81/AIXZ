@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/influence4.txt",header=T)
+mydata=read.table("data/3502/influence4.txt",header=T)
 
 head(mydata)
 

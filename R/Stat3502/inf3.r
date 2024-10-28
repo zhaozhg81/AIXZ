@@ -1,9 +1,16 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/influence3.txt",header=T)
+mydata=read.table("data/3502/influence3.txt",header=T)
 
 head(mydata)
 
 x=mydata$x
 y=mydata$y
+
+## leverage value
+newx=cbind(1,x)
+h=newx%*%solve(t(newx)%*%newx)%*%t(newx)
+lev=diag(h)
+
+
 
 out=lm(y~x)
 cooks.distance(out)

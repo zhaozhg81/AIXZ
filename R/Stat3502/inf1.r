@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/influence1.txt",header=T)
+mydata=read.table("data/3502/influence1.txt",header=T)
 
 head(mydata)
 
@@ -20,7 +20,7 @@ plot(ab_all[,1],ab_all[,2],xlim=c(0,6),ylim=c(4,6),
      xlab="estimated intercept",ylab="estimated slope")
 
 ########################
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/influence4.txt",header=T)
+mydata=read.table("data/3502/influence4.txt",header=T)
 
 head(mydata)
 
