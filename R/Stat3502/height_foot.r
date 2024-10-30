@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/height_foot.txt",header=T)
+mydata=read.table("data/3502/height_foot.txt",header=T)
 
 head(mydata)
 
