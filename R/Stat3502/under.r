@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/under.txt",header=T)
+mydata=read.table("data/3502/under.txt",header=T)
 
 head(mydata)
 
@@ -9,8 +9,6 @@ y=mydata$y
 plot(x1,y)
 out0=lm(y~x1)
 abline(a=coefficients(out0)[1],b=coefficients(out0)[2])
-
-title(expression(R^2==0.88))
 
 summary(out0)$r.squared
 
@@ -38,7 +36,6 @@ plot(x1,y)
 points(x1[x2==0],y[x2==0],col="blue")
 points(x1[x2==20],y[x2==20],col="red")
 
-title(expression(R^2==0.997))
 
 abline(a=coefficients(out)[1],b=coefficients(out)[2],col="blue")
 

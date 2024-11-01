@@ -1,7 +1,7 @@
 
 library(MASS)
 
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/cement.txt",header=T)
+mydata=read.table("data/3502/cement.txt",header=T)
 
 head(mydata)
 
