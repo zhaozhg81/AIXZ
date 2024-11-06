@@ -5,22 +5,14 @@ mydata=read.table("data/3502/cement.txt",header=T)
 
 head(mydata)
 
-##########################################
-
-model.full=lm(y~.,data=mydata)
-
-step=stepAIC(model.full, direction="backward")
 
 ##########################################
 
-model.null=lm(y~1,data=mydata)
+## Forward regression
+step( lm(y~1, data=mydata), scope=list(lower=~1, upper=~x1+x2+x3+x4), direction="forward")
 
-step=stepAIC(out, direction="forward",scope = list(lower = model.null,
-                                                   upper = model.full))
+## Backward regression
+step( lm(y~x1+x2+x3+x4, data=mydata), direction="backward")
 
-###############################################
-
-step=stepAIC(model.full, direction="both")
-
-step=stepAIC(model.null, direction="both",scope = list(lower = model.null,
-                                                       upper = model.full))
+## step regression
+step( lm(y~1, data=mydata), scope=list(lower=~1, upper=~x1+x2+x3+x4), direction="both")
