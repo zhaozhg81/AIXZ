@@ -3,7 +3,7 @@
 
 library(car)
 
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/bloodpress.txt",header=T)
+mydata=read.table("data/3502/bloodpress.txt",header=T)
 
 head(mydata)
 
@@ -72,5 +72,3 @@ r2=lm(x3~x2)$residuals
 
 plot(r2,r1,ylab="residual of y on x2", xlab="residual of x3 on x2")
 
-
-par(mfrow=c(1, 1))

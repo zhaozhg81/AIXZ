@@ -15,3 +15,7 @@ a=c(1,1,1,1)
 sum(a*x1)
 
 sum(a*x2)
+
+X=cbind(x1,x2)
+
+solve( t(X)%*%X )
