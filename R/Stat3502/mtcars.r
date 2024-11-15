@@ -13,6 +13,8 @@ summary(model)
 
 
 pca.fit = prcomp(~mpg+disp+drat+wt+qsec,data=mtcars, scale=T)
+screeplot(pca.fit, type="lines")
+
 
 #fit PCR model
 model <- pcr(hp~mpg+disp+drat+wt+qsec, data=mtcars, scale=TRUE, validation="CV")
