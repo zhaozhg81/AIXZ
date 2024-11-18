@@ -8,34 +8,82 @@ head(mtcars)
 
 round( cor(mtcars[,2:7]), digits=2 )
 
-lm.model <- lm(hp~mpg+disp+drat+wt+qsec, data=mtcars)
-summary(model)
+pairs(~disp+drat+wt+hp+qsec,data=mtcars )
 
 
-pca.fit = prcomp(~mpg+disp+drat+wt+qsec,data=mtcars, scale=T)
+lm.model <- lm(mpg~hp+disp+drat+wt+qsec, data=mtcars)
+summary(lm.model)
+
+
+pca.fit = prcomp(~hp+disp+drat+wt+qsec,data=mtcars, scale=T)
+summary( pca.fit )
+
+## Total variance 
+sum( unlist( summary(pca.fit)[1] )^2 )
+
 screeplot(pca.fit, type="lines")
 
 
 #fit PCR model
-model <- pcr(hp~mpg+disp+drat+wt+qsec, data=mtcars, scale=TRUE, validation="CV")
+model <- pcr(mpg~hp+disp+drat+wt+qsec, data=mtcars, scale=TRUE, validation="LOO")
+t(model$loadings[,])%*%( model$loadings[,])
+
 
 #view summary of model fitting
 summary(model)
+model$validation
+
+###############################################
+###############################################
+###############################################
+###############################################
+## Ridge Regression
+
+# Getting the independent variable
+x_var <- data.matrix(mtcars[, c("hp", "wt", "drat","disp","qsec")])
+# Getting the dependent variable
+y_var <- mtcars[, "mpg"]
+# Setting the range of lambda values
+lambda_seq <- 10^seq(2, -2, by = -.1)
+# Using glmnet function to build the ridge regression in r
+fit <- glmnet(x_var, y_var, alpha = 0, lambda  = lambda_seq)
+# Checking the model
+summary(fit)
+
+# Using cross validation glmnet
+ridge_cv <- cv.glmnet(x_var, y_var, alpha = 0)
+# Best lambda value
+best_lambda <- ridge_cv$lambda.min
+best_lambda
+
+best_ridge <- glmnet(x_var, y_var, alpha = 0, lambda = best_lambda)
 
 
+## Check the prediction performance
 #define training and testing sets
-train <- mtcars[1:25, c("hp", "mpg", "disp", "drat", "wt", "qsec")]
-y_test <- mtcars[26:nrow(mtcars), c("hp")]
-test <- mtcars[26:nrow(mtcars), c("mpg", "disp", "drat", "wt", "qsec")]
+pred.lm = array(0, nrow(mtcars))
+pred.ridge = array(0, nrow(mtcars))
 
-## Use linear model
-lm.model = lm(hp~mpg+disp+drat+wt+qsec, data = train)
-lm_pred = predict( lm.model, test )
-sqrt( mean((lm_pred-y_test)^2))
+for(i in 1:nrow(mtcars))
+{
+  train <- mtcars[setdiff(c(1:nrow(mtcars)), i), c("hp", "mpg", "disp", "drat", "wt", "qsec")]
+  y_test <- mtcars[i, c("mpg")]
+  test <- mtcars[i, c("hp", "disp", "drat", "wt", "qsec")]
 
-#use model to make predictions on a test set
-model <- pcr(hp~mpg+disp+drat+wt+qsec, data = train, scale =TRUE, validation = "CV")
-pcr_pred <- predict(model, test, ncomp = 2)
+  ## Use linear model
+  lm.model = lm(mpg~hp+disp+drat+wt+qsec, data = train)
+  lm_pred = predict( lm.model, test )
+  pred.lm[i] = (lm_pred-y_test)^2
 
-#calculate RMSE
-sqrt(mean((pcr_pred - y_test)^2))
+  #use the ridge regression
+  # Using cross validation glmnet
+  ridge_cv <- cv.glmnet(x=data.matrix(train[, c("hp", "disp", "drat","wt","qsec")]), y=train[, "mpg"], alpha = 0)
+  # Best lambda value
+  best_lambda <- ridge_cv$lambda.min
+
+  best_ridge <- glmnet(x=data.matrix(train[, c("hp", "disp", "drat","wt","qsec")]), y=train[, "mpg"], alpha = 0, lambda = best_lambda)
+  
+  ridge_pred= predict( best_ridge, s=best_lambda, newx=test)
+  
+  pred.ridge[i] = (ridge_pred - y_test)^2
+}
