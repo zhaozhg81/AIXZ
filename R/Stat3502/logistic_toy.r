@@ -1,6 +1,6 @@
 
 
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/toy.txt")
+mydata=read.table("data/3502/toy.txt")
 
 x=mydata$x
 y=mydata$y

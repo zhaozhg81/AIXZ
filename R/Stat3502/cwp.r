@@ -1,7 +1,7 @@
 
 
 
-mydata = read.csv("C:/Users/dongy/Desktop/linear regression/cwp.csv",header=T)
+mydata = read.csv("data/3502/cwp.csv",header=T)
 
 names(mydata)=c("years","cases","miners","prop")
 
