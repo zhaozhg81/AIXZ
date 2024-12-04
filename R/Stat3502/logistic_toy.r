@@ -21,7 +21,7 @@ abline(ab[1],ab[2],col="red")
 #############################################################
 # method 1 to draw the estimated probability (logistic curve)
 
-out=glm(y~x,family=binomial)
+out=glm(cbind(y,1-y)~x,family=binomial)
 
 ab=out$coefficients
 

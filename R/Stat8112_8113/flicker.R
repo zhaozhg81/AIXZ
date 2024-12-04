@@ -2,6 +2,7 @@
 # Example: Eye flicker frequency vs. eye color
 
 flicker <- read.table("data/flicker.txt",header=TRUE)
+flicker$Colour = as.factor( flicker$Colour )
 
 tapply(flicker$Flicker,flicker$Colour,mean)
 

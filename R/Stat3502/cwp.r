@@ -15,23 +15,15 @@ x=rep(mydata$years,mydata$miners)
 
 tmp=cbind(mydata$cases,mydata$miners-mydata$cases)
 
-y=numeric(0)
-for(i in 1:8){ 
-  y=c(y,rep(c(1,0),tmp[i,]))
-}
-
-newdata=data.frame(x=x,y=as.factor(y))
-
-head(newdata)
 
 ################################################
 # use glm to run logistic regression
 
-out=glm(y~x,family=binomial,data=newdata)
+out=glm(cbind(cases, miners-cases)~years,family=binomial,data=mydata)
 
 summary(out)
 
-out0=glm(y~1,family=binomial)
+out0=glm(cbind(cases, miners-cases)~1,family=binomial, data=mydata)
 
 anova(out0,out,test="Chisq")
 
@@ -41,7 +33,7 @@ anova(out0,out,test="Chisq")
 
 yhat=out$fitted.values
 
-plot(x,yhat,ylab="proportion",xlab="years")
+plot(mydata$years,yhat,ylab="proportion",xlab="years")
 points(mydata$years,mydata$prop,pch=4,col="red")
 legend("topleft",legend=
          c("estimated proportions","observed proportions"),pch=c(1,4),col=c("black","red"))
@@ -49,7 +41,7 @@ legend("topleft",legend=
 
 ###########################################
 # plot estimated pi(x) (logistic function)
-
+x=mydata$years
 a=seq(min(x),max(x),by=.1)
 
 beta=out$coefficients
@@ -58,8 +50,6 @@ b=exp(beta[1]+beta[2]*a)/(1+exp(beta[1]+beta[2]*a))
 
 plot(a,b,xlab="years",ylab="Severe case",lty=1,type="l",ylim=c(0,1))
 
-points(x,as.numeric(y))
-
 
 ########################################################
 # confidence interval and prediction in logistic regression
@@ -67,11 +57,11 @@ points(x,as.numeric(y))
 confint(out)
 
 # predict the probability
-predict(out,data.frame(x=30),type="response")
+predict(out,data.frame(years=30),type="response")
 
 
 # predict the log odds
-predict(out,data.frame(x=30))
+predict(out,data.frame(years=30))
 
 
 
