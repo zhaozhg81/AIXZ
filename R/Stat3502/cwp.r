@@ -7,19 +7,11 @@ names(mydata)=c("years","cases","miners","prop")
 
 mydata
 
-################################################
-# change data to a format that glm recognizes
-# y should be 0 and 1
-
-x=rep(mydata$years,mydata$miners)
-
-tmp=cbind(mydata$cases,mydata$miners-mydata$cases)
-
 
 ################################################
 # use glm to run logistic regression
 
-out=glm(cbind(cases, miners-cases)~years,family=binomial,data=mydata)
+out=glm(cbind(cases, miners-cases)~years,family=binomial(link="logit"),data=mydata)
 
 summary(out)
 

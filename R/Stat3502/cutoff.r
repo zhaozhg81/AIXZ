@@ -1,4 +1,4 @@
-mydata=read.table("C:/Users/dongy/Desktop/linear regression/leukemia.txt",header=T)
+mydata=read.table("data/3502/leukemia.txt",header=T)
 
 
 ##################################################
