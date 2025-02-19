@@ -5,6 +5,9 @@ library(lmtest)
 ceb <- read.table("data/ceb.txt", header=TRUE)
 ceb$y <- floor( ceb$y )
 
+ceb$res <- factor( ceb$res, levels=c("rural","urban","Suva" ))
+ceb$educ <- factor( ceb$educ, levels=c("none","lower","upper","sec+"))
+
 ## Pois
 ceb.pois <- glm( y~educ + res, offset=log(n), family=poisson("log"), data=ceb )
 summary( ceb.pois )

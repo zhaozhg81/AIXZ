@@ -21,14 +21,14 @@ lrt.test1 = 2 * sum( poll1.ori[1:2,1:2] * log( poll1.ori[1:2,1:2]/mu.hat1) )
   
 
 poll1 <- data.frame( expand.grid( c("Men","Women"),c("Gore","Bush") ) ) 
-colnames(poll1)=c("Gender","Candidate")ß
+colnames(poll1)=c("Gender","Candidate")
 poll1$count <- c( unlist(   poll1.ori[1:2,1:2] ) )
 
 poll1.loglinear <- glm( count ~ Gender + Candidate, family=poisson, data=poll1 )
 
 
 ##
-poll2.ori <- read.table( "daßta/ExitPoll2.txt", header=TRUE )
+poll2.ori <- read.table( "data/ExitPoll2.txt", header=TRUE )
 poll2.total = sum( poll2.ori[1:5,1:2] )
 poll2.test <- chisq.test( poll2.ori[1:5,1:2], correct=FALSE )
 

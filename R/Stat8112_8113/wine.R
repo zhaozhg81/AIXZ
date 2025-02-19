@@ -80,6 +80,33 @@ plot(wine.lda.values$x[,1],wine.lda.values$x[,2]) # make a scatterplot
 text(wine.lda.values$x[,1],wine.lda.values$x[,2],wine$V1,cex=0.7,pos=4,col="red") # add labels
 ## dev.off()
 
+## KNN
+library(caTools)
+library(class)
+
+set.seed(255)
+split = sample.split(wine$V1, 
+                     SplitRatio = 0.75)
+train = subset(wine, 
+               split == TRUE)
+test = subset(wine, 
+              split == FALSE)
+train_scaled = scale(train[-1])
+test_scaled = scale(test[-1])
+
+test_pred <- knn(
+  train = train_scaled, 
+  test = test_scaled,
+  cl = train$V1, 
+  k=3
+)
+actual <- test$V1
+
+cm <- table(actual,test_pred)
+cm
+
+accuracy <- sum(diag(cm))/length(actual)
+sprintf("Accuracy: %.2f%%", accuracy*100)
 
 ## SIR
 sir.res = do.sir( as.matrix( wine[,2:14],nrow=178, ncol=13), as.matrix(wine[,1],nrow=178, ncol=1), ndim=2 )
