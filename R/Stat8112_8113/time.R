@@ -69,6 +69,20 @@ plot( acf( rainseriesforecasts$residuals ) )
 plot( rain, type="o" )
 plot( fitted( rainseriesforecasts), col='green', type='o')
 
+fit1 <- ses(rain, alpha=0.2, initial="simple", h=3)
+fit2 <- ses(rain, alpha=0.6, initial="simple", h=3)
+fit3 <- ses(rain, initial = 'simple', h=3)
+plot(fit1, ylab="rainfall",   xlab="Year", main="", fcol="white", type="o")
+lines(fitted(fit1), col="blue", type="o")
+lines(fitted(fit2), col="red", type="o")
+lines(fitted(fit3), col="green", type="o")
+lines(fit1$mean, col="blue", type="o")
+lines(fit2$mean, col="red", type="o")
+lines(fit3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.2), expression(alpha == 0.6),
+         expression(alpha == 0.9999)),pch=1)
+
 
 ## Yield in Neitherlands
 yield <- read.table("./data/yield.txt")

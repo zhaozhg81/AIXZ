@@ -2,9 +2,7 @@
 library(forecast)
 library(ggplot2)
 
-# Read the data from CSV file
-data <- read.csv("../data/sample_data.csv")
-
+data <- scan("./data/precip1.dat",skip=1)
 
 # Set the Date column as the index
 data_ts <- ts(data, frequency = 12)

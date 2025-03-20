@@ -30,8 +30,8 @@ SIGMA = matrix( 0.8, nrow=5,ncol=5)
 diag(SIGMA) = 1
 X = rmvnorm(100, mean=rep(0,5), sigma= SIGMA )
 Y = (X < -1.5) + (X < -1) + (X < 1) + (X <1.5) + (X<10)
-cor(Y)
-polychoric(Y)$rho
+round( cor(Y),digits=2)
+round( polychoric(Y)$rho, digits=2 )
 
   
 # Scree plot
@@ -44,4 +44,4 @@ poly_model$loadings
 fa.diagram(poly_model, cut=0.5, e.cut=0.5)
 
 
-factanal(covmat=rho, factors=2)
+factanal(covmat=rho, factors=5, n.obs = 980)

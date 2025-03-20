@@ -19,7 +19,7 @@ res2
 
 
 ## Check the restriction, diagonal
-t(res2$loadings) %*% solve( diag( res2$uniquenesses ) ) %*% res2$loadings
+round( t(res2$loadings) %*% solve( diag( res2$uniquenesses ) ) %*% res2$loadings, digits=2)
 
 # compare different rotations:
 res2.none <- factanal(data, factors=2, rotation="none")    # no rotation
@@ -28,7 +28,7 @@ res2.default <- factanal(data, factors=2)				# same as varimax
 res2.promax <- factanal(data, factors=2, rotation="promax")  # oblique rotation
 
 ## Check the restriction, not diagonal, because the direction has been rotated.
-t(res2.varimax$loadings) %*% solve( diag( res2.varimax$uniquenesses ) ) %*% res2.varimax$loadings
+round( t(res2.varimax$loadings) %*% solve( diag( res2.varimax$uniquenesses ) ) %*% res2.varimax$loadings, digits=2)
 
 ## What about other rotations such as "quartimax"?
 ## Need to use the package GPARotation "Gradient Projection Algorithm Rotation for Factor Analysis"

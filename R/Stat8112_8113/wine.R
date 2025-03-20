@@ -53,7 +53,7 @@ AIC(base.logit.pca)
 
 ## postscript("wine_scatter_pca.eps",horizontal=FALSE)
 plot(wine.pca$score[,1],wine.pca$score[,2]) # make a scatterplot
-text(wine.pca$score[,1],wine.pca$score[,2], wine$V1, cex=0.7, pos=4, col="red") # add labels
+text(wine.pca$score[,1],wine.pca$score[,2], wine$V1, cex=2, pos=4, col="red") # add labels
 ## dev.off()
 
 
@@ -77,7 +77,7 @@ ldahist(data = wine.lda.values$x[,2], g=wine$V1)
 
 ## postscript("wine_lda_scatterplot.eps",horizontal=FALSE)
 plot(wine.lda.values$x[,1],wine.lda.values$x[,2]) # make a scatterplot
-text(wine.lda.values$x[,1],wine.lda.values$x[,2],wine$V1,cex=0.7,pos=4,col="red") # add labels
+text(wine.lda.values$x[,1],wine.lda.values$x[,2],wine$V1,cex=2,pos=4,col="green") # add labels
 ## dev.off()
 
 ## KNN
@@ -116,6 +116,10 @@ text(sir.res$Y[,1], sir.res$Y[,2], wine$V1, cex=0.7, pos=4, col="red") # add lab
 ## LassoSIR
 wine.lasso.sir <- LassoSIR(as.matrix( wine[,2:14],nrow=178, ncol=13), as.matrix(wine[,1],nrow=178, ncol=1), solution.path = FALSE, 
                            categorical = TRUE, nfolds = 10, no.dim=2)
+
+norm = sqrt( apply( wine.lasso.sir$beta^2, 2, sum) )
+wine.lasso.sir$beta[,1] = wine.lasso.sir$beta[,1]/norm[1]
+wine.lasso.sir$beta[,2] = wine.lasso.sir$beta[,2]/norm[2]
 
 X = as.matrix(wine[,2:14], nrow=178, ncol=13 )
 x.comb = X%*%wine.lasso.sir$beta
