@@ -17,7 +17,7 @@ beta <- 1
 
 ## Posterior
 set.seed(2)
-N <- 10000
+N <- 1000000
 theta.post <- rbeta( N, 437+alpha, 543+beta )
 
 ## postscript("theta_post_draw.eps",horizontal=FALSE)
