@@ -16,6 +16,16 @@ pairs(retail[c("sales_k", "digital_ads_k", "traffic_100",
 
 # 2. Simple and multiple regression
 m_simple <- lm(sales_k ~ digital_ads_k, data = retail)
+m_working <- lm(sales_k ~ digital_ads_k + traffic_100 + income_k +
+                  competitor_km ,
+                data = retail )
+
+library(multcomp)
+K <- matrix( c(0, 0, 0, -1, 1), nrow=1) ## Constrast the vector of the contrast
+test1 <- glht( m_working, linfct= K) 
+summary(test1)
+confint(test1)
+
 m_main <- lm(sales_k ~ digital_ads_k + traffic_100 + income_k +
                competitor_km + promotion + region,
              data = retail)
