@@ -1,13 +1,6 @@
-script_file <- tryCatch(sys.frame(1)$ofile, error = function(e) NULL)
-if (is.null(script_file)) {
-  a <- grep("^--file=", commandArgs(FALSE), value = TRUE)
-  script_file <- if (length(a)) sub("^--file=", "", a[1]) else NULL
-}
-script_dir <- if (is.null(script_file)) getwd() else dirname(normalizePath(script_file))
-source(file.path(script_dir, "mlr_setup.R"))
 
 # Vehicle prices: adjusted slopes, condition block, prediction, collinearity.
-cars <- read.csv(file.path(mlr_data, "mlr_vehicle_prices.csv"))
+cars <- read.csv( "data/mlr_vehicle_prices.csv")
 cars$manufacturer <- factor(cars$manufacturer,
                              levels = c("Economy", "Standard", "Premium"))
 car_simple <- lm(price_k ~ mileage_1000, cars)
@@ -24,7 +17,7 @@ print(predict(car_full, profile, interval = "confidence"))
 print(predict(car_full, profile, interval = "prediction"))
 
 # Advertising: compare search and social slopes using their full covariance.
-ads <- read.csv(file.path(mlr_data, "mlr_advertising_markets.csv"))
+ads <- read.csv( "data/mlr_advertising_markets.csv")
 ads$quarter <- factor(ads$quarter, levels = c("Q1", "Q2", "Q3", "Q4"))
 ad_fit <- lm(sales_k ~ search_ads_k + social_ads_k + market_size_1000 +
                income_k + competitors + quarter, ads)
@@ -63,7 +56,7 @@ stopifnot(isTRUE(all.equal(unname(channel_summary$test$tstat), unname(t_stat))),
                            unname(2 * pt(-abs(t_stat), df)))))
 
 # Customer interaction: difference between two promotion-associated differences.
-customers <- read.csv(file.path(mlr_data, "mlr_customer_promotions.csv"))
+customers <- read.csv("data/mlr_customer_promotions.csv")
 customers$promotion <- factor(customers$promotion, levels = c(0, 1),
                               labels = c("No", "Yes"))
 customers$customer_type <- factor(customers$customer_type, levels = c("Existing", "New"))
@@ -73,7 +66,7 @@ print(summary(customer_fit)); print(confint(customer_fit))
 print(anova(update(customer_fit, . ~ . - promotion:customer_type), customer_fit))
 
 # Insulation: existing local data, not simulated; before/after is observational.
-gas <- read.table(file.path(mlr_data, "insulgas.txt"), header = TRUE)
+gas <- read.table( "./data/insulgas.txt", header = TRUE)
 gas$Insulate <- factor(gas$Insulate, levels = c("Before", "After"))
 stopifnot(nrow(gas) == 56, all(table(gas$Insulate) == c(26, 30)))
 gas$temp_centered <- gas$Temp - mean(gas$Temp)
@@ -81,8 +74,6 @@ gas_additive <- lm(Gas ~ Insulate + temp_centered, gas)
 gas_interaction <- lm(Gas ~ Insulate * temp_centered, gas)
 print(summary(gas_additive)); print(summary(gas_interaction))
 print(anova(gas_additive, gas_interaction)); print(confint(gas_interaction))
-pdf(file.path(mlr_output, "additional_diagnostics.pdf"))
 for (fit in list(car_full, ad_fit, customer_fit, gas_interaction)) {
   par(mfrow = c(2, 2)); plot(fit)
 }
-dev.off()

@@ -1,14 +1,8 @@
-script_file <- tryCatch(sys.frame(1)$ofile, error = function(e) NULL)
-if (is.null(script_file)) {
-  a <- grep("^--file=", commandArgs(FALSE), value = TRUE)
-  script_file <- if (length(a)) sub("^--file=", "", a[1]) else NULL
-}
-script_dir <- if (is.null(script_file)) getwd() else dirname(normalizePath(script_file))
-source(file.path(script_dir, "mlr_setup.R"))
+
 
 
 # Four prespecified models, one fixed training/test split, one response scale.
-d <- read.csv(file.path(mlr_data, "mlr_sales_selection.csv"))
+d <- read.csv("data/mlr_sales_selection.csv")
 stopifnot(nrow(d) == 180, !anyNA(d), !anyDuplicated(d$store_id))
 train <- d[d$sample == "Training", ]
 test <- d[d$sample == "Test", ]
@@ -41,7 +35,6 @@ print(c(AIC_choice = rownames(selection_table)[which.min(selection_table$AIC)],
 stopifnot(all(diff(selection_table$training_SSE) <= 1e-8))
 # Reference full-model Cp equals its regression dimension, by construction.
 stopifnot(abs(selection_table["Full", "Cp"] - fits$Full$rank) < 1e-8)
-write.csv(selection_table, file.path(mlr_output, "selection_criteria.csv"))
 
 # Optional search demonstrations: use TRAINING data only.
 # These restricted searches need not find the same model or a global optimum.
@@ -77,7 +70,6 @@ print(coef(lasso_cv, s = "lambda.1se"))
 coef_table <- data.frame(term = rownames(as.matrix(coef(lasso_cv))),
   lambda_min = as.vector(coef(lasso_cv, s = "lambda.min")),
   lambda_1se = as.vector(coef(lasso_cv, s = "lambda.1se")))
-write.csv(coef_table, file.path(mlr_output, "lasso_coefficients.csv"), row.names = FALSE)
 
 # Final held-out evaluation, after criteria and lambda choices are fixed.
 # The two lambda rules are prespecified; do not choose between them on this test.
@@ -91,9 +83,6 @@ print(test_rmse)
 # Verify the teaching comparison on the supplied fixed split.
 stopifnot(test_rmse["Core"] < test_rmse["Full"],
           selection_table["Core", "LOOCV_RMSE"] < selection_table["Full", "LOOCV_RMSE"])
-write.csv(data.frame(model = names(test_rmse), test_RMSE = unname(test_rmse)),
-          file.path(mlr_output, "selection_test_errors.csv"), row.names = FALSE)
-pdf(file.path(mlr_output, "model_selection.pdf"), width = 9, height = 5)
 par(mfrow = c(1, 2))
 barplot(selection_table$training_RMSE, names.arg = rownames(selection_table),
         ylab = "Training RMSE ($1,000)", main = "Fit on training stores")

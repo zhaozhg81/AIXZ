@@ -1,17 +1,7 @@
-# Multiple Linear Regression: Retail Store Case Study
-# All monetary variables are measured in thousands of dollars.
 
-script_file <- tryCatch(sys.frame(1)$ofile, error = function(e) NULL)
-if (is.null(script_file)) {
-  a <- grep("^--file=", commandArgs(FALSE), value = TRUE)
-  script_file <- if (length(a)) sub("^--file=", "", a[1]) else NULL
-}
-script_dir <- if (is.null(script_file)) getwd() else dirname(normalizePath(script_file))
-source(file.path(script_dir, "mlr_setup.R"))
 
-retail <- read.csv(file.path(mlr_data, "retail_store_sales.csv"))
-stopifnot(nrow(retail) == 120, !anyNA(retail), !anyDuplicated(retail$store_id))
-pdf(file.path(mlr_output, "retail_diagnostics.pdf"))
+retail <- read.csv( "data/retail_store_sales.csv")
+
 retail$region <- factor(retail$region)
 retail$promotion <- factor(retail$promotion,
                            levels = c(0, 1),
